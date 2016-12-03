@@ -34,7 +34,7 @@ function getLoaders() {
         },
         {
             test: /\.(woff|woff2|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-            loader: 'file-loader?name=/fonts/[name]-[hash].[ext]'
+            loader: 'file-loader?name=/fonts/[name].[ext]'
         }
     ];
     return loaders;
@@ -64,6 +64,14 @@ function getPlugins() {
 
 
 const config = {
+    target: 'web',
+    externals: ['react'],
+    resolve: {
+        modules: [
+            'node_modules',
+            'bower_components'
+        ]
+    },
     entry: {
         'app.js': './src/js/app.js',
         'bootswatch-paper.css': './src/less/bootswatch-customization/paper/build.less',
@@ -71,7 +79,7 @@ const config = {
     },
     output: {
         path: './dist',
-        filename: '[name].js'
+        filename: 'app.js'
     },
     module: {
         loaders: getLoaders()
