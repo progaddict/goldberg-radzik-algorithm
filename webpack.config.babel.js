@@ -14,22 +14,49 @@ const isDev = environment === 'development';
 
 
 
+function getLoaders() {
+    const loaders = [
+        {
+            test: /\.(js|jsx)$/,
+            exclude: /(node_modules|bower_components)/,
+            loader: 'babel-loader',
+            query: {
+                presets: ['es2015']
+            }
+        },
+        {
+            test: /\.hbs$/,
+            loader: 'handlebars'
+        },
+        {
+            test: /\.less$/,
+            loader: ExtractTextPlugin.extract('css-loader!less-loader')
+        },
+        {
+            test: /\.(woff|woff2|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+            loader: 'file-loader?name=/fonts/[name]-[hash].[ext]'
+        }
+    ];
+    return loaders;
+}
+
+
+
 function getPlugins() {
     const plugins = [
         new HtmlWebpackPlugin({
             template: '!!handlebars!src/index.hbs',
             title: 'Goldberg-Radzik Algorithm'
         }),
-
+        new ExtractTextPlugin('[name].css', {
+            allChunks: true,
+            minimize: isProd
+        })
     ];
     if (isProd) {
         plugins.push(new webpack.optimize.UglifyJsPlugin());
-        plugins.push(new ExtractTextPlugin('[name].css', {
-            allChunks: true
-        }));
     }
     else if (isDev) {
-        plugins.push(new ExtractTextPlugin('[name].css', { allChunks: true }));
     }
     return plugins;
 }
@@ -47,30 +74,7 @@ const config = {
         path: './dist',
         filename: 'app.js'
     },
-    module: {
-        loaders: [
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['es2015']
-                }
-            },
-            {
-                test: /\.hbs$/,
-                loader: 'handlebars'
-            },
-            {
-                test: /\.less$/,
-                loader: ExtractTextPlugin.extract('css-loader!less-loader')
-            },
-            {
-                test: /\.(woff|woff2|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: 'file-loader?name=/fonts/[name]-[hash].[ext]'
-            }
-        ]
-    },
+    module: { loaders: getLoaders() },
     plugins: getPlugins()
 };
 
