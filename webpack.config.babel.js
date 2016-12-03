@@ -67,7 +67,7 @@ const config = {
     entry: {
         app: [
             './src/js/index.js',
-            './src/less/bootstrap/bootstrap.less'
+            './src/less/bootswatch-customization/paper/build.less'
         ]
     },
     output: {
