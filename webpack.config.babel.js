@@ -48,7 +48,7 @@ function getPlugins() {
             template: '!!handlebars!src/index.hbs',
             title: 'Goldberg-Radzik Algorithm'
         }),
-        new ExtractTextPlugin('[name].css', {
+        new ExtractTextPlugin('[name]', {
             allChunks: true,
             minimize: isProd
         })
@@ -65,16 +65,17 @@ function getPlugins() {
 
 const config = {
     entry: {
-        app: [
-            './src/js/index.js',
-            './src/less/bootswatch-customization/paper/build.less'
-        ]
+        'app.js': './src/js/app.js',
+        'bootswatch-paper.css': './src/less/bootswatch-customization/paper/build.less',
+        'app.css': './src/less/app.less'
     },
     output: {
         path: './dist',
-        filename: 'app.js'
+        filename: '[name].js'
     },
-    module: { loaders: getLoaders() },
+    module: {
+        loaders: getLoaders()
+    },
     plugins: getPlugins(),
     devServer: {
         contentBase: './dist',
