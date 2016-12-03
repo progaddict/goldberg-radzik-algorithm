@@ -1,0 +1,16 @@
+{
+  "name": "goldberg-radzik-algorithm",
+  "version": "1.0.0",
+  "description": "Goldberg-Radzik algorithm",
+  "main": "index.js",
+  "repository": "https://github.com/progaddict/goldberg-radzik-algorithm.git",
+  "author": "Alex Ryndin",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^0.0.2",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulpclass": "^0.1.1",
+    "typescript": "^2.0.10"
+  }
+}
