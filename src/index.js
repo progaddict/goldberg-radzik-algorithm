@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+require('file?name=[name].[ext]!./index.html');
+
 function component() {
     var element = document.createElement('div');
 
