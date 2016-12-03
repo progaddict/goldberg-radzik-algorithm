@@ -1,15 +1,15 @@
 import webpack from 'webpack';
 
-module.exports = {
+export default {
     entry: './src/index.js',
     output: {
-        filename: 'bundle.js',
-        path: './dist'
+        path: './dist',
+        filename: 'bundle.js'
     },
     module: {
         loaders: [
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel-loader',
                 query: {
@@ -18,4 +18,4 @@ module.exports = {
             }
         ]
     }
-}
+};

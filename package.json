@@ -1,10 +1,11 @@
 {
   "name": "goldberg-radzik-algorithm",
   "version": "1.0.0",
-  "description": "Goldberg-Radzik algorithm",
+  "description": "Implementation of the Goldberg-Radzik heuristic for the Bellman-Ford algorithm",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
+    "clean": "rm -rf ./dist",
     "http-server": "http-server ./dist"
   },
   "repository": {
@@ -17,6 +18,8 @@
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
     "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
     "bower": "^1.8.0",
     "file-loader": "^0.9.0",
     "http-server": "^0.9.0",
