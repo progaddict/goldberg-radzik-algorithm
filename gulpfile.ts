@@ -1,7 +1,7 @@
 import { Gulpclass, Task } from "gulpclass/Decorators";
 
-let gulp = require("gulp");
-let del = require("del");
+const gulp = require("gulp");
+const del = require("del");
 
 @Gulpclass()
 export class Gulpfile {
