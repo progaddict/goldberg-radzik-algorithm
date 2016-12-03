@@ -1,3 +1,2 @@
-const name = "Bob";
-const time = "today";
-const str = `Hello ${name}, how are you ${time}?`;
+export const name = "Bob";
+export const time = "today";
