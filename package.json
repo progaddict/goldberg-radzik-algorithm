@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "clean": "rm -rf ./dist",
-    "http-server": "http-server ./dist"
+    "dev-server": "webpack-dev-server"
   },
   "repository": {
     "type": "git",
@@ -27,10 +27,12 @@
     "handlebars": "^4.0.6",
     "handlebars-loader": "^1.4.0",
     "html-webpack-plugin": "^2.24.1",
-    "http-server": "^0.9.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
-    "webpack": "^1.13.3"
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "d3": "^4.4.0"
+  }
 }

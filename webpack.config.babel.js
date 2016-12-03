@@ -75,7 +75,11 @@ const config = {
         filename: 'app.js'
     },
     module: { loaders: getLoaders() },
-    plugins: getPlugins()
+    plugins: getPlugins(),
+    devServer: {
+        contentBase: './dist',
+        inline: true
+    }
 };
 
 export default config;
