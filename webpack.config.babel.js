@@ -1,19 +1,7 @@
 'use strict';
 
-import path from 'path';
-
-
-
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-
-
-
-const environment = process.env.NODE_ENV || 'development';
-const isProd = environment === 'production';
-const isDev = environment === 'development';
-
-
 
 const config = {
     target: 'web',
@@ -45,7 +33,7 @@ const config = {
             },
             {
                 test: /\.less$/,
-                loader: 'style-loader!css-loader!less-loader' + (isProd ? '?compress' : '')
+                loader: 'style-loader!css-loader!less-loader'
             },
             {
                 test: /\.(woff|woff2|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -57,8 +45,7 @@ const config = {
         new HtmlWebpackPlugin({
             template: '!!handlebars!src/index.hbs',
             title: 'Goldberg-Radzik Algorithm'
-        }),
-        ...(isProd ? [new webpack.optimize.UglifyJsPlugin()] : [])
+        })
     ],
     devServer: {
         contentBase: './dist',

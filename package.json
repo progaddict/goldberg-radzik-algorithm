@@ -4,7 +4,9 @@
   "description": "Implementation of the Goldberg-Radzik heuristic for the Bellman-Ford algorithm",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "build-dbg": "webpack -d",
+    "build-dev": "webpack",
+    "build-prod": "webpack -p",
     "clean": "rm -rf ./dist",
     "dev-server": "webpack-dev-server"
   },
