@@ -1,5 +1,8 @@
-bower_components
-dist
-node_modules
+# Compiled output
+public/dist
+public/index.html
+public/sitemap.xml
 
-*.log
+# Node.js and NPM
+node_modules
+npm-debug.log
