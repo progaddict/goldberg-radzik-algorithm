@@ -1,13 +1,3 @@
-/**
- * React Static Boilerplate
- * https://github.com/kriasoft/react-static-boilerplate
- *
- * Copyright © 2015-present Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
 import React from 'react';
 
 function decodeParam(val) {
@@ -54,26 +44,6 @@ function resolve(routes, context) {
 
     if (!params) {
       continue;
-    }
-
-    // Check if the route has any data requirements, for example:
-    // { path: '/tasks/:id', data: { task: 'GET /api/tasks/$id' }, page: './pages/task' }
-    if (route.data) {
-      // Load page component and all required data in parallel
-      const keys = Object.keys(route.data);
-      return Promise.all([
-        route.load(),
-        ...keys.map(key => {
-          const query = route.data[key];
-          const method = query.substring(0, query.indexOf(' ')); // GET
-          const url = query.substr(query.indexOf(' ') + 1);      // /api/tasks/$id
-          // TODO: Replace query parameters with actual values coming from `params`
-          return fetch(url, { method }).then(resp => resp.json());
-        }),
-      ]).then(([Page, ...data]) => {
-        const props = keys.reduce((result, key, i) => ({ ...result, [key]: data[i] }), {});
-        return <Page route={route} error={context.error} {...props} />;
-      });
     }
 
     return route.load().then(Page => <Page route={route} error={context.error} />);

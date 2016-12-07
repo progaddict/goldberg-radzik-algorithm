@@ -1,5 +1,5 @@
 ---
-title: React Static Boilerplate
+title: Goldgerg-Radzik Algorithm
 ---
 
 ## Welcome!
