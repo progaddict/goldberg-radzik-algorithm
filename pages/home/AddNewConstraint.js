@@ -3,9 +3,6 @@ import Button from '../../components/Button';
 import cx from 'classnames';
 import s from './styles.css';
 
-//import 'getmdl-select/getmdl-select.min';
-//import * as selectStyles from 'getmdl-select/getmdl-select.min.css';
-
 
 
 class AddNewConstraint extends React.Component {
