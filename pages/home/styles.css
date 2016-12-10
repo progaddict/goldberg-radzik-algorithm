@@ -4,20 +4,26 @@
     padding: 0 16px;
   }
 
-  .add-new-constraint {
+}
+
+.add-new-constraint {
     max-width: 250px;
   }
 
-  .variable {
-    min-width: 35px;
-    max-width: 35px;
-    text-align: center;
-  }
+.variable {
+  min-width: 35px;
+  max-width: 35px;
+  text-align: center;
+}
 
-  .constant {
-    min-width: 60px;
-    max-width: 60px;
-    text-align: center;
-  }
+.constant {
+  min-width: 70px;
+  max-width: 70px;
+  text-align: center;
+}
 
+.sign {
+  min-width: 70px;
+  max-width: 70px;
+  text-align: center;
 }
