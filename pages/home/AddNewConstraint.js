@@ -25,39 +25,48 @@ class AddNewConstraint extends React.Component {
       'mdl-textfield__input',
       s.variable
     );
-    const classConstant = cx(
+    const classNameConstant = cx(
       'mdl-textfield__input',
       s.constant
+    );
+    const classNameSign = cx(
+      'mdl-textfield mdl-js-textfield',
+      'mdl-textfield--floating-label',
+      'getmdl-select',
+      'getmdl-select__fix-height',
+      s.sign
     );
     return (
       <table ref={node => (this.root = node)} className={classNameTable}>
         <tbody>
           <tr>
             <td className="mdl-data-table__cell--non-numeric">
-              <input name="x" className={classNameVariable} type="text" placeholder="x" />
+              <div class="mdl-textfield mdl-js-textfield">
+                <input name="x" className={classNameVariable} type="text" placeholder="x" />
+              </div>
             </td>
             <td>-</td>
             <td className="mdl-data-table__cell--non-numeric">
-              <input name="y" className={classNameVariable} type="text" placeholder="y" />
+              <div class="mdl-textfield mdl-js-textfield">
+                <input name="y" className={classNameVariable} type="text" placeholder="y" />
+              </div>
             </td>
             <td className="mdl-data-table__cell--non-numeric">
-
-              <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height">
-                  <input className="mdl-textfield__input" type="text" id="sample2" value="Belarus" readOnly={true} tabIndex="-1" />
-                  <label htmlFor="sample2">
+              <div className={classNameSign}>
+                  <input id="sign" name="sign" className="mdl-textfield__input" type="text" value="&#60;" readOnly={true} tabIndex="-1" />
+                  <label htmlFor="sign">
                       <i className="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
                   </label>
-                  <label htmlFor="sample2" className="mdl-textfield__label">Country</label>
-                  <ul htmlFor="sample2" className="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-                      <li className="mdl-menu__item" data-val="DE">Germany</li>
-                      <li className="mdl-menu__item" data-val="BY">Belarus</li>
-                      <li className="mdl-menu__item" data-val="RU">Russia</li>
+                  <ul htmlFor="sign" className="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                      <li className="mdl-menu__item" data-val="true">&#60;</li>
+                      <li className="mdl-menu__item" data-val="false">&#8804;</li>
                   </ul>
               </div>
-
             </td>
             <td>
-              <input name="c" className={classConstant} type="text" placeholder="-3.7" />
+              <div class="mdl-textfield mdl-js-textfield">
+                <input name="c" className={classNameConstant} type="text" placeholder="-3.7" pattern="-?[0-9]*(\.[0-9]+)?" />
+              </div>
             </td>
             <td>
               <Button type="mini-fab" className="mdl-button--icon" colored={true} primary={true} ripple={true} accent={true}>
