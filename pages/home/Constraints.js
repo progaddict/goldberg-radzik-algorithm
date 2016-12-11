@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux'
 import Button from '../../components/Button';
 import cx from 'classnames';
 
@@ -48,4 +49,12 @@ class Constraints extends React.Component {
 
 }
 
-export default Constraints;
+
+
+const mapStateToProps = (state) => {
+  return {
+    dlConstraints: state.dlConstraints
+  }
+}
+
+export default connect(mapStateToProps)(Constraints);

@@ -33,10 +33,10 @@ class Formula extends React.Component {
           <h2 className="mdl-card__title-text">Formula</h2>
         </div>
         <div className="mdl-card__supporting-text">
-          <Constraints />
+          <AddNewConstraint />
         </div>
         <div className="mdl-card__actions mdl-card--border">
-          <AddNewConstraint />
+          <Constraints />
         </div>
         <div className="mdl-card__menu">
           <Button type="mini-fab" colored={true} ripple={true}>
