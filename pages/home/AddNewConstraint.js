@@ -16,11 +16,6 @@ class AddNewConstraint extends React.Component {
   }
 
   render() {
-    const classNameTable = cx(
-      'mdl-data-table',
-      'mdl-js-data-table mdl-shadow--2dp',
-      s['add-new-constraint']
-    );
     const classNameVariable = cx(
       'mdl-textfield__input',
       s.variable
@@ -37,26 +32,19 @@ class AddNewConstraint extends React.Component {
       s.sign
     );
     return (
-      <table ref={node => (this.root = node)} className={classNameTable}>
+      <table ref={node => (this.root = node)}>
         <tbody>
           <tr>
             <td className="mdl-data-table__cell--non-numeric">
-              <div class="mdl-textfield mdl-js-textfield">
-                <input name="x" className={classNameVariable} type="text" placeholder="x" />
-              </div>
+              <input name="x" className={classNameVariable} type="text" placeholder="x" />
             </td>
             <td>-</td>
             <td className="mdl-data-table__cell--non-numeric">
-              <div class="mdl-textfield mdl-js-textfield">
-                <input name="y" className={classNameVariable} type="text" placeholder="y" />
-              </div>
+              <input name="y" className={classNameVariable} type="text" placeholder="y" />
             </td>
             <td className="mdl-data-table__cell--non-numeric">
               <div className={classNameSign}>
                   <input id="sign" name="sign" className="mdl-textfield__input" type="text" value="&#60;" readOnly={true} tabIndex="-1" />
-                  <label htmlFor="sign">
-                      <i className="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
-                  </label>
                   <ul htmlFor="sign" className="mdl-menu mdl-menu--bottom-left mdl-js-menu">
                       <li className="mdl-menu__item" data-val="true">&#60;</li>
                       <li className="mdl-menu__item" data-val="false">&#8804;</li>
@@ -64,9 +52,7 @@ class AddNewConstraint extends React.Component {
               </div>
             </td>
             <td>
-              <div class="mdl-textfield mdl-js-textfield">
-                <input name="c" className={classNameConstant} type="text" placeholder="-3.7" pattern="-?[0-9]*(\.[0-9]+)?" />
-              </div>
+              <input name="c" className={classNameConstant} type="text" placeholder="-3.7" pattern="-?[0-9]*(\.[0-9]+)?" />
             </td>
             <td>
               <Button type="mini-fab" className="mdl-button--icon" colored={true} primary={true} ripple={true} accent={true}>

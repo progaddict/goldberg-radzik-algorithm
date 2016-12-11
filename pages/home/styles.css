@@ -6,10 +6,6 @@
 
 }
 
-.add-new-constraint {
-    max-width: 250px;
-  }
-
 .variable {
   min-width: 35px;
   max-width: 35px;
@@ -23,7 +19,7 @@
 }
 
 .sign {
-  min-width: 70px;
-  max-width: 70px;
+  min-width: 20px;
+  max-width: 20px;
   text-align: center;
 }

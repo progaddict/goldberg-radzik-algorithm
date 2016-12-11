@@ -23,13 +23,10 @@ class HomePage extends React.Component {
     return (
       <Layout className={s.content}>
         <div className="mdl-grid">
-          <div className="mdl-cell mdl-cell--12-col">
-            <Formula dlConstraints={testDlConstraints} />
-          </div>
+          <Formula dlConstraints={testDlConstraints} className="mdl-cell mdl-cell--12-col" />
         </div>
         <div className="mdl-grid">
           <div className="mdl-cell mdl-cell--4-col">
-            <AddNewConstraint />
             <Constraints dlConstraints={testDlConstraints} />
           </div>
           <div className="mdl-cell mdl-cell--8-col">
