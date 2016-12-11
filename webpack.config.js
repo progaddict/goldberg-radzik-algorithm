@@ -55,7 +55,7 @@ const config = {
 
   resolve: {
     alias: {
-      './routes.json': routesFile
+      'my-app-routes': routesFile
     }
   },
 
@@ -127,6 +127,7 @@ const config = {
         test: /\.json$/,
         exclude: [
           path.resolve(__dirname, './routes.json'),
+          path.resolve(__dirname, './routes-gh-pages.json')
         ],
         loader: 'json-loader',
       },
@@ -134,7 +135,15 @@ const config = {
         test: /\.json$/,
         include: [
           path.resolve(__dirname, './routes.json'),
+          path.resolve(__dirname, './routes-gh-pages.json')
         ],
+        loaders: [
+          `babel-loader?${JSON.stringify(babelConfig)}`,
+          path.resolve(__dirname, './utils/routes-loader.js'),
+        ],
+      },
+      {
+        test: /^my-app-routes$/,
         loaders: [
           `babel-loader?${JSON.stringify(babelConfig)}`,
           path.resolve(__dirname, './utils/routes-loader.js'),

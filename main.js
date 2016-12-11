@@ -10,7 +10,7 @@ import store from './core/store';
 import router from './core/router';
 import history from './core/history';
 
-let routes = require('./routes.json'); // Loaded with utils/routes-loader.js
+let routes = require('my-app-routes'); // Loaded with utils/routes-loader.js
 const container = document.getElementById('container');
 
 function renderComponent(component) {
@@ -37,8 +37,8 @@ FastClick.attach(document.body);
 
 // Enable Hot Module Replacement (HMR)
 if (module.hot) {
-  module.hot.accept('./routes.json', () => {
-    routes = require('./routes.json'); // eslint-disable-line global-require
+  module.hot.accept('my-app-routes', () => {
+    routes = require('my-app-routes'); // eslint-disable-line global-require
     render(history.getCurrentLocation());
   });
 }
