@@ -34,6 +34,7 @@
     "browser-sync": "^2.13.0",
     "chai": "^3.5.0",
     "connect-history-api-fallback": "^1.2.0",
+    "copy": "^0.3.0",
     "css-loader": "^0.23.1",
     "del": "^2.2.1",
     "ejs": "^2.4.2",
@@ -101,7 +102,9 @@
     "test:watch": "mocha --compilers js:babel-register --reporter min --watch",
     "clean": "node run clean",
     "build": "node run build",
+    "build:gh-pages": "node run build --gh-pages",
     "build:debug": "node run build --debug",
+    "publish:gh-pages": "node run publish --gh-pages",
     "start": "node run"
   }
 }

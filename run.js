@@ -4,6 +4,7 @@ const fs = require('fs');
 const del = require('del');
 const ejs = require('ejs');
 const webpack = require('webpack');
+const copy =  require('copy');
 
 // TODO: Update configuration settings
 const config = {
@@ -12,6 +13,18 @@ const config = {
 };
 
 const tasks = new Map(); // The collection of automation tasks ('clean', 'build', 'publish', etc.)
+
+function promisifyCopy(patterns, dir, options) {
+  return new Promise((resolve, reject) => {
+    copy(patterns, dir, options, function(err) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+}
 
 function run(task) {
   const start = new Date();
@@ -25,6 +38,28 @@ function run(task) {
 // Clean up the output directory
 // -----------------------------------------------------------------------------
 tasks.set('clean', () => del(['public/dist/*', '!public/dist/.git'], { dot: true }));
+
+//
+// Clean up the docs directory
+// -----------------------------------------------------------------------------
+tasks.set('clean-docs', () => del(['docs/*'], { dot: true }));
+
+//
+// Copy build into docs directory
+// -----------------------------------------------------------------------------
+tasks.set('copy-build-to-docs', () => {
+  const copyIndexHtml = promisifyCopy(
+    'public/index.html',
+    'docs',
+    { srcBase: 'public' }
+  );
+  const copyJs = promisifyCopy(
+    'public/dist/main*.js',
+    'docs/dist',
+    { srcBase: 'public/dist' }
+  );
+  return Promise.all([copyIndexHtml, copyJs]);
+});
 
 //
 // Copy ./index.html into the /public folder
@@ -82,6 +117,15 @@ tasks.set('build', () => {
     .then(() => run('bundle'))
     .then(() => run('html'))
     .then(() => run('sitemap'));
+});
+
+//
+// Publish GitHub Pages (in the /docs folder)
+// -----------------------------------------------------------------------------
+tasks.set('publish', () => {
+  return run('build')
+    .then(() => run('clean-docs'))
+    .then(() => run('copy-build-to-docs'));
 });
 
 //
