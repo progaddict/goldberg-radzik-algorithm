@@ -4,7 +4,7 @@ import cx from 'classnames';
 
 
 
-class ConstraintRow extends React.Component {
+class Constraint extends React.Component {
 
   static propTypes = {
     dlConstraint: PropTypes.object.isRequired
@@ -38,7 +38,7 @@ class Constraints extends React.Component {
   }
 
   render() {
-    const rows = this.props.dlConstraints.map(c => <ConstraintRow key={c.id} dlConstraint={c} />);
+    const rows = this.props.dlConstraints.map(c => <Constraint key={c.id} dlConstraint={c} />);
     return (
       <div>
         {rows}

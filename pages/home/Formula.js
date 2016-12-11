@@ -43,20 +43,12 @@ class Formula extends React.Component {
           <AddNewConstraint />
         </div>
         <div className="mdl-card__menu">
-          <Button type="mini-fab" colored={true} primary={true} ripple={true} accent={true}>
-            <i className="material-icons">play_arrow</i>
-          </Button>
-          <Button type="mini-fab" colored={true} primary={true} ripple={true} accent={true}>
-            <i className="material-icons">pause</i>
+          <Button type="mini-fab" colored={true} ripple={true}>
+            <i className="material-icons">cancel</i>
           </Button>
         </div>
       </div>
     );
-  }
-
-  getFormulaString(dlConstraints) {
-    let result = dlConstraints.map(c => `(${c.toString()})`);
-    return result.join(' \u{2227} ');
   }
 
 }
