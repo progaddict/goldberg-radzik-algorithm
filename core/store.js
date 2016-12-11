@@ -36,6 +36,11 @@ const store = createStore((state, action) => {
         ...state,
         dlConstraints: newDlConstraints
       };
+    case 'REMOVE_ALL_CONSTRAINTS':
+      return {
+        ...state,
+        dlConstraints: []
+      };
     default:
       return state;
   }

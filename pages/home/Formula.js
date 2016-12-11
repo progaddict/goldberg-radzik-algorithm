@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux'
 import Button from '../../components/Button';
 import AddNewConstraint from './AddNewConstraint';
 import Constraints from './Constraints';
@@ -9,7 +10,8 @@ import cx from 'classnames';
 class Formula extends React.Component {
 
   static defaultProps = {
-    dlConstraints: []
+    dlConstraints: [],
+    onRemoveAll: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -21,11 +23,12 @@ class Formula extends React.Component {
   }
 
   render() {
+    const { className, onRemoveAll } = this.props;
     const classNameRoot = cx(
       'card-wide',
       'mdl-card',
       'mdl-shadow--2dp',
-      this.props.className
+      className
     );
     return (
       <div ref={node => (this.root = node)} className={classNameRoot}>
@@ -39,7 +42,7 @@ class Formula extends React.Component {
           <Constraints />
         </div>
         <div className="mdl-card__menu">
-          <Button type="mini-fab" colored={true} ripple={true}>
+          <Button type="mini-fab" colored={true} ripple={true} onClick={() => onRemoveAll()}>
             <i className="material-icons">cancel</i>
           </Button>
         </div>
@@ -49,4 +52,12 @@ class Formula extends React.Component {
 
 }
 
-export default Formula;
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onRemoveAll: () => dispatch({ type: 'REMOVE_ALL_CONSTRAINTS' })
+  }
+};
+
+export default connect(null, mapDispatchToProps)(Formula);
