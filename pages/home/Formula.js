@@ -7,9 +7,8 @@ import cx from 'classnames';
 class Formula extends React.Component {
 
   static propTypes = {
-    dlConstraints: PropTypes.array,
-    className: PropTypes.string
-  };
+    dlConstraints: PropTypes.array
+  }
 
   static defaultProps = {
     dlConstraints: []
@@ -25,7 +24,7 @@ class Formula extends React.Component {
 
   render() {
     const classNameRoot = cx(
-      'demo-card-wide',
+      'card-wide',
       'mdl-card',
       'mdl-shadow--2dp',
       this.props.className
@@ -52,7 +51,7 @@ class Formula extends React.Component {
 
   getFormulaString(dlConstraints) {
     let result = dlConstraints.map(c => `(${c.toString()})`);
-    return result.join(' and ');
+    return result.join(' \u{2227} ');
   }
 
 }

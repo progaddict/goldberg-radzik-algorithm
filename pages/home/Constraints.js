@@ -1,11 +1,13 @@
 import React, { PropTypes } from 'react';
 import Button from '../../components/Button';
+import cx from 'classnames';
 
 
 
 class ConstraintRow extends React.Component {
+
   static propTypes = {
-    dlConstraint: PropTypes.object.isRequired,
+    dlConstraint: PropTypes.object.isRequired
   }
 
   render() {
@@ -38,9 +40,15 @@ class Constraints extends React.Component {
   }
 
   render() {
+    const classNameRoot = cx(
+      'mdl-data-table',
+      'mdl-js-data-table',
+      'mdl-shadow--2dp',
+      this.props.className
+    );
     const rows = this.props.dlConstraints.map(c => <ConstraintRow key={c.id} dlConstraint={c} />);
     return (
-      <table className="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+      <table className={classNameRoot}>
         <tbody>
           {rows}
         </tbody>

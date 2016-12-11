@@ -26,12 +26,8 @@ class HomePage extends React.Component {
           <Formula dlConstraints={testDlConstraints} className="mdl-cell mdl-cell--12-col" />
         </div>
         <div className="mdl-grid">
-          <div className="mdl-cell mdl-cell--4-col">
-            <Constraints dlConstraints={testDlConstraints} />
-          </div>
-          <div className="mdl-cell mdl-cell--8-col">
-            <Graph />
-          </div>
+          <Constraints dlConstraints={testDlConstraints} className="mdl-cell mdl-cell--1-col" />
+          <Graph className="mdl-cell mdl-cell--11-col" />
         </div>
     </Layout>
     );
