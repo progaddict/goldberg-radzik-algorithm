@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react';
 import Button from '../../components/Button';
-import cx from 'classnames';
-import s from './styles.css';
 
 
 
@@ -16,43 +14,35 @@ class AddNewConstraint extends React.Component {
   }
 
   render() {
-    const classNameVariable = cx(
-      'mdl-textfield__input',
-      s.variable
-    );
-    const classNameConstant = cx(
-      'mdl-textfield__input',
-      s.constant
-    );
-    const classNameSign = cx(
-      'mdl-textfield mdl-js-textfield',
-      'mdl-textfield--floating-label',
-      'getmdl-select',
-      'getmdl-select__fix-height',
-      s.sign
-    );
+    const stylesVariable = {
+      minWidth: '35px',
+      maxWidth: '35px',
+      textAlign: 'center'
+    };
+    const stylesConstant = {
+      minWidth: '70px',
+      maxWidth: '70px',
+      textAlign: 'center'
+    };
     return (
       <table ref={node => (this.root = node)}>
         <tbody>
           <tr>
             <td className="mdl-data-table__cell--non-numeric">
-              <input name="x" className={classNameVariable} type="text" placeholder="x" />
+              <input name="x" className="mdl-textfield__input" style={stylesVariable} type="text" placeholder="x" />
             </td>
             <td>-</td>
             <td className="mdl-data-table__cell--non-numeric">
-              <input name="y" className={classNameVariable} type="text" placeholder="y" />
+              <input name="y" className="mdl-textfield__input" style={stylesVariable} type="text" placeholder="y" />
             </td>
             <td className="mdl-data-table__cell--non-numeric">
-              <div className={classNameSign}>
-                  <input id="sign" name="sign" className="mdl-textfield__input" type="text" value="&#60;" readOnly={true} tabIndex="-1" />
-                  <ul htmlFor="sign" className="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-                      <li className="mdl-menu__item" data-val="true">&#60;</li>
-                      <li className="mdl-menu__item" data-val="false">&#8804;</li>
-                  </ul>
-              </div>
+              <select>
+                <option value="true">&#60;</option>
+                <option value="false">&#8804;</option>
+              </select>
             </td>
             <td>
-              <input name="c" className={classNameConstant} type="text" placeholder="-3.7" pattern="-?[0-9]*(\.[0-9]+)?" />
+              <input name="c" className="mdl-textfield__input" style={stylesConstant} type="text" placeholder="-3.7" pattern="-?[0-9]*(\.[0-9]+)?" />
             </td>
             <td>
               <Button type="mini-fab" className="mdl-button--icon" colored={true} primary={true} ripple={true} accent={true}>

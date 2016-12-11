@@ -5,21 +5,3 @@
   }
 
 }
-
-.variable {
-  min-width: 35px;
-  max-width: 35px;
-  text-align: center;
-}
-
-.constant {
-  min-width: 70px;
-  max-width: 70px;
-  text-align: center;
-}
-
-.sign {
-  min-width: 20px;
-  max-width: 20px;
-  text-align: center;
-}

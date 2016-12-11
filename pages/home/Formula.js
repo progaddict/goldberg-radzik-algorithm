@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
+import Button from '../../components/Button';
 import AddNewConstraint from './AddNewConstraint';
+import Constraints from './Constraints';
 import cx from 'classnames';
 
 
@@ -35,15 +37,18 @@ class Formula extends React.Component {
           <h2 className="mdl-card__title-text">Formula</h2>
         </div>
         <div className="mdl-card__supporting-text">
-          {this.getFormulaString(this.props.dlConstraints)}
+          <Constraints dlConstraints={this.props.dlConstraints} />
         </div>
         <div className="mdl-card__actions mdl-card--border">
           <AddNewConstraint />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
+        </div>
+        <div className="mdl-card__menu">
+          <Button type="mini-fab" colored={true} primary={true} ripple={true} accent={true}>
+            <i className="material-icons">play_arrow</i>
+          </Button>
+          <Button type="mini-fab" colored={true} primary={true} ripple={true} accent={true}>
+            <i className="material-icons">pause</i>
+          </Button>
         </div>
       </div>
     );

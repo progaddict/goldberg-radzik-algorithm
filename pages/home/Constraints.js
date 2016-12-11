@@ -12,16 +12,14 @@ class ConstraintRow extends React.Component {
 
   render() {
     return (
-      <tr>
-        <td className="mdl-data-table__cell--non-numeric">
+      <span className="mdl-chip mdl-chip--deletable">
+        <span className="mdl-chip__text">
           {this.props.dlConstraint.toString()}
-        </td>
-        <td>
-          <Button type="mini-fab" className="mdl-button--icon" colored={true} ripple={true}>
-            <i className="material-icons">delete</i>
-          </Button>
-        </td>
-      </tr>
+        </span>
+        <button type="button" className="mdl-chip__action">
+          <i className="material-icons">cancel</i>
+        </button>
+      </span>
     );
   }
 
@@ -40,19 +38,11 @@ class Constraints extends React.Component {
   }
 
   render() {
-    const classNameRoot = cx(
-      'mdl-data-table',
-      'mdl-js-data-table',
-      'mdl-shadow--2dp',
-      this.props.className
-    );
     const rows = this.props.dlConstraints.map(c => <ConstraintRow key={c.id} dlConstraint={c} />);
     return (
-      <table className={classNameRoot}>
-        <tbody>
-          {rows}
-        </tbody>
-      </table>
+      <div>
+        {rows}
+      </div>
     );
   }
 
