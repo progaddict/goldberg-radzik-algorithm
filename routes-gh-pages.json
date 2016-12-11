@@ -1,0 +1,12 @@
+[
+  {
+    "path": "/goldberg-radzik-algorithm/",
+    "page": "./pages/home",
+    "chunk": "main"
+  },
+  {
+    "path": "/goldberg-radzik-algorithm/error",
+    "page": "./pages/error",
+    "chunk": "main"
+  }
+]

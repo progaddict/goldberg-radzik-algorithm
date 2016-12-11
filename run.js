@@ -73,6 +73,10 @@ tasks.set('bundle', () => {
 // -----------------------------------------------------------------------------
 tasks.set('build', () => {
   global.DEBUG = process.argv.includes('--debug') || false;
+  if (process.argv.includes('--gh-pages')) {
+    global.PUBLIC_PATH = '/goldberg-radzik-algorithm/dist/';
+    global.ROUTES_FILE = './routes-gh-pages.json';
+  }
   return Promise.resolve()
     .then(() => run('clean'))
     .then(() => run('bundle'))
