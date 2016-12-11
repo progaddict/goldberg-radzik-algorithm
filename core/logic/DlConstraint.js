@@ -1,5 +1,5 @@
 class DlConstraint {
-  constructor(id, left, right, isStrictInequality = false, constant = 0) {
+  constructor(left, right, isStrictInequality = false, constant = 0, id) {
     this.id = id;
     this.left = left;
     this.right = right;

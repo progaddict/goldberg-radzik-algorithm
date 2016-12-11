@@ -8,10 +8,6 @@ import cx from 'classnames';
 
 class Formula extends React.Component {
 
-  static propTypes = {
-    dlConstraints: PropTypes.array
-  }
-
   static defaultProps = {
     dlConstraints: []
   }
@@ -37,7 +33,7 @@ class Formula extends React.Component {
           <h2 className="mdl-card__title-text">Formula</h2>
         </div>
         <div className="mdl-card__supporting-text">
-          <Constraints dlConstraints={this.props.dlConstraints} />
+          <Constraints />
         </div>
         <div className="mdl-card__actions mdl-card--border">
           <AddNewConstraint />
