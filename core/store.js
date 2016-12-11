@@ -19,6 +19,23 @@ const store = createStore((state, action) => {
         dlConstraints: [...state.dlConstraints, action.dlConstraint],
         nextId: state.nextId + 1
       };
+    case 'REMOVE_CONSTRAINT':
+      const cId = action.dlConstraint.id;
+      const newDlConstraints = [...state.dlConstraints];
+      const cIndex = newDlConstraints.findIndex(c => c.id === cId);
+      if (cIndex === -1) {
+        if (__DEV__) {
+          console.warn(
+            `failed to find constraint with id ${cId}. action: ${JSON.stringify(action)}`
+          );
+        }
+        return state;
+      }
+      newDlConstraints.splice(cIndex, 1);
+      return {
+        ...state,
+        dlConstraints: newDlConstraints
+      };
     default:
       return state;
   }

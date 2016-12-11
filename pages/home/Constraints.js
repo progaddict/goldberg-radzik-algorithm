@@ -8,16 +8,18 @@ import cx from 'classnames';
 class Constraint extends React.Component {
 
   static propTypes = {
-    dlConstraint: PropTypes.object.isRequired
+    dlConstraint: PropTypes.object.isRequired,
+    onRemove: PropTypes.func.isRequired
   }
 
   render() {
+    const { dlConstraint, onRemove } = this.props;
     return (
       <span className="mdl-chip mdl-chip--deletable">
         <span className="mdl-chip__text">
-          {this.props.dlConstraint.toString()}
+          { dlConstraint.toString() }
         </span>
-        <button type="button" className="mdl-chip__action">
+        <button type="button" className="mdl-chip__action" onClick={() => onRemove(dlConstraint)}>
           <i className="material-icons">cancel</i>
         </button>
       </span>
@@ -25,6 +27,14 @@ class Constraint extends React.Component {
   }
 
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onRemove: (c) => dispatch({ type: 'REMOVE_CONSTRAINT', dlConstraint: c })
+  }
+};
+
+const ConstraintWrapper = connect(null, mapDispatchToProps)(Constraint);
 
 
 
@@ -39,10 +49,10 @@ class Constraints extends React.Component {
   }
 
   render() {
-    const rows = this.props.dlConstraints.map(c => <Constraint key={c.id} dlConstraint={c} />);
+    const rows = this.props.dlConstraints.map(c => <ConstraintWrapper key={c.id} dlConstraint={c} />);
     return (
       <div>
-        {rows}
+        { rows }
       </div>
     );
   }
