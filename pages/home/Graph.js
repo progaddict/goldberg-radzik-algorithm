@@ -5,6 +5,20 @@ import cx from 'classnames';
 
 
 
+const AlgorithmControlButton = ({ onClick, isActive, icon }) => (
+  <Button type="mini-fab" colored={true} primary={true} ripple={true} accent={true} onClick={onClick} disabled={!isActive}>
+    <i className="material-icons">{icon}</i>
+  </Button>
+)
+
+AlgorithmControlButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  icon: PropTypes.string.isRequired,
+}
+
+
+
 class Graph extends React.Component {
 
   componentDidMount() {
@@ -28,18 +42,14 @@ class Graph extends React.Component {
           <h2 className="mdl-card__title-text">Graph</h2>
         </div>
         <div className="mdl-card__supporting-text">
-          <Sigma graph={{nodes:[{id:"n1", label:"Alice"}, {id:"n2", label:"Rabbit"}], edges:[{id:"e1",source:"n1",target:"n2",label:"SEES"}]}} settings={{drawEdges:true}}>
-            <RelativeSize initialSize={15}/>
-            <RandomizeNodePositions/>
+          <Sigma graph={{ nodes: [{ id: "n1", label: "Alice" }, { id: "n2", label: "Rabbit" }], edges: [{ id: "e1", source: "n1", target: "n2", label: "SEES" }] }} settings={{ drawEdges: true }}>
+            <RelativeSize initialSize={15} />
+            <RandomizeNodePositions />
           </Sigma>
         </div>
         <div className="mdl-card__menu">
-          <Button type="mini-fab" colored={true} primary={true} ripple={true} accent={true}>
-            <i className="material-icons">play_arrow</i>
-          </Button>
-          <Button type="mini-fab" colored={true} primary={true} ripple={true} accent={true} disabled={true}>
-            <i className="material-icons">pause</i>
-          </Button>
+          <AlgorithmControlButton isActive={true} onClick={() => { alert('start'); } } icon="play_arrow" />
+          <AlgorithmControlButton isActive={true} onClick={() => { alert('stop'); } } icon="pause" />
         </div>
       </div>
     );
