@@ -1,5 +1,7 @@
 import { createStore } from 'redux';
 
+import DlConstraint from './logic/DlConstraint';
+
 
 
 const initialState = {
@@ -8,6 +10,35 @@ const initialState = {
   isStartAlgorithmActive: false,
   isStopAlgorithmActive: false,
 };
+
+const formulas = [
+  {
+    ...initialState,
+    nextId: 6,
+    dlConstraints: [
+      new DlConstraint('u', 'v', true, 1, 0),
+      new DlConstraint('v', 'w', true, 5, 1),
+      new DlConstraint('w', 'x', false, -3, 2),
+      new DlConstraint('x', 'y', true, 1, 3),
+      new DlConstraint('y', 'z', false, -5, 4),
+      new DlConstraint('y', 'v', false, 0, 5),
+    ],
+    isStartAlgorithmActive: true,
+  },
+  {
+    ...initialState,
+    nextId: 6,
+    dlConstraints: [
+      new DlConstraint('u', 'v', true, 1, 0),
+      new DlConstraint('v', 'w', true, 5, 1),
+      new DlConstraint('w', 'x', false, -3, 2),
+      new DlConstraint('x', 'y', true, -3, 3),
+      new DlConstraint('y', 'z', false, -5, 4),
+      new DlConstraint('y', 'w', false, 4, 5),
+    ],
+    isStartAlgorithmActive: true,
+  },
+];
 
 // Centralized application state
 // For more information visit http://redux.js.org/
@@ -63,6 +94,8 @@ const store = createStore((state, action) => {
         isStartAlgorithmActive: state.dlConstraints.length > 0,
         isStopAlgorithmActive: false
       };
+    case 'LOAD_FORMULA':
+      return formulas[action.formulaId];
     default:
       return state;
   }

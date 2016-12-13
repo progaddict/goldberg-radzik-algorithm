@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux'
+import cx from 'classnames';
 import Button from '../../components/Button';
 import AddNewConstraint from './AddNewConstraint';
 import Constraints from './Constraints';
-import cx from 'classnames';
 
 
 
@@ -11,7 +11,8 @@ class Formula extends React.Component {
 
   static defaultProps = {
     dlConstraints: [],
-    onRemoveAll: PropTypes.func.isRequired
+    onRemoveAll: PropTypes.func.isRequired,
+    onLoadFormula: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -23,7 +24,7 @@ class Formula extends React.Component {
   }
 
   render() {
-    const { className, onRemoveAll } = this.props;
+    const { className, onRemoveAll, onLoadFormula } = this.props;
     const classNameRoot = cx(
       'card-wide',
       'mdl-card',
@@ -42,6 +43,12 @@ class Formula extends React.Component {
           <Constraints />
         </div>
         <div className="mdl-card__menu">
+          <Button type="mini-fab" colored={true} ripple={true} onClick={() => onLoadFormula(0)}>
+            <i className="material-icons">looks_one</i>
+          </Button>
+          <Button type="mini-fab" colored={true} ripple={true} onClick={() => onLoadFormula(1)}>
+            <i className="material-icons">looks_two</i>
+          </Button>
           <Button type="mini-fab" colored={true} ripple={true} onClick={() => onRemoveAll()}>
             <i className="material-icons">cancel</i>
           </Button>
@@ -56,7 +63,8 @@ class Formula extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onRemoveAll: () => dispatch({ type: 'REMOVE_ALL_CONSTRAINTS' })
+    onRemoveAll: () => dispatch({ type: 'REMOVE_ALL_CONSTRAINTS' }),
+    onLoadFormula: (id) => dispatch({ type: 'LOAD_FORMULA', formulaId: id }),
   }
 };
 
