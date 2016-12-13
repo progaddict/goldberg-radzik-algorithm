@@ -16,6 +16,7 @@
     "react-dom": "^15.2.1",
     "react-mdl": "^1.6.1",
     "react-redux": "^4.4.5",
+    "react-sigmajs": "^0.4.14",
     "redux": "^3.5.2",
     "whatwg-fetch": "^1.0.0"
   },

@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { Sigma, RandomizeNodePositions, RelativeSize } from 'react-sigmajs';
 import Button from '../../components/Button';
 import cx from 'classnames';
 
@@ -27,10 +28,10 @@ class Graph extends React.Component {
           <h2 className="mdl-card__title-text">Graph</h2>
         </div>
         <div className="mdl-card__supporting-text">
-          <svg ref={node => (this.svg = node)}>
-            <polygon points="100,10 40,198 190,78 10,78 160,198" style={{'fill': 'lime', 'stroke': 'purple', 'strokeWidth': 5, 'fillRule': 'nonzero'}} />
-            Sorry, your browser does not support inline SVG.
-          </svg>
+          <Sigma graph={{nodes:[{id:"n1", label:"Alice"}, {id:"n2", label:"Rabbit"}], edges:[{id:"e1",source:"n1",target:"n2",label:"SEES"}]}} settings={{drawEdges:true}}>
+            <RelativeSize initialSize={15}/>
+            <RandomizeNodePositions/>
+          </Sigma>
         </div>
         <div className="mdl-card__menu">
           <Button type="mini-fab" colored={true} primary={true} ripple={true} accent={true}>
