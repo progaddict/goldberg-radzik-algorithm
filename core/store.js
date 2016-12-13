@@ -1,6 +1,8 @@
 import { createStore } from 'redux';
 
 import DlConstraint from './logic/DlConstraint';
+import ConstraintGraph from './logic/ConstraintGraph';
+import { constraintGraphToSigmaGraph } from './logic/ConstraintGraph';
 
 
 
@@ -9,6 +11,10 @@ const initialState = {
   dlConstraints: [],
   isStartAlgorithmActive: false,
   isStopAlgorithmActive: false,
+  graph: {
+    constraintGraph: new ConstraintGraph(),
+    sigmaGraph: constraintGraphToSigmaGraph(new ConstraintGraph()),
+  },
 };
 
 const formulas = [

@@ -14,6 +14,7 @@ class Graph extends React.Component {
     onStopAlgorithm: PropTypes.func.isRequired,
     isStartAlgorithmActive: PropTypes.bool.isRequired,
     isStopAlgorithmActive: PropTypes.bool.isRequired,
+    sigmaGraph: PropTypes.object,
   }
 
   componentDidMount() {
@@ -26,7 +27,7 @@ class Graph extends React.Component {
 
   render() {
     const { className, onStartAlgorithm, onStopAlgorithm,
-      isStartAlgorithmActive, isStopAlgorithmActive } = this.props;
+      isStartAlgorithmActive, isStopAlgorithmActive, sigmaGraph } = this.props;
     const classNameRoot = cx(
       'card-wide',
       'mdl-card',
@@ -39,7 +40,7 @@ class Graph extends React.Component {
           <h2 className="mdl-card__title-text">Graph</h2>
         </div>
         <div className="mdl-card__supporting-text">
-          <Sigma graph={{ nodes: [{ id: "n1", label: "Alice" }, { id: "n2", label: "Rabbit" }], edges: [{ id: "e1", source: "n1", target: "n2", label: "SEES" }] }} settings={{ drawEdges: true }}>
+          <Sigma graph={sigmaGraph} settings={{ drawEdges: true }}>
             <RelativeSize initialSize={15} />
             <RandomizeNodePositions />
           </Sigma>
@@ -65,7 +66,8 @@ class Graph extends React.Component {
 const stpGraph = (state) => {
   return {
     isStartAlgorithmActive: state.isStartAlgorithmActive,
-    isStopAlgorithmActive: state.isStopAlgorithmActive
+    isStopAlgorithmActive: state.isStopAlgorithmActive,
+    sigmaGraph: state.graph.sigmaGraph,
   }
 };
 const dtpGraph = (dispatch) => {
