@@ -7,6 +7,7 @@ import Formula from './Formula';
 import AddNewConstraint from './AddNewConstraint';
 import Constraints from './Constraints';
 import Graph from './Graph';
+import AlgorithmHistory from './AlgorithmHistory';
 
 import DlConstraint from '../../core/logic/DlConstraint';
 
@@ -18,10 +19,11 @@ class HomePage extends React.Component {
     return (
       <Layout className={s.content}>
         <div className="mdl-grid">
-          <Formula className="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet mdl-cell--12-col-phone" />
-          <Graph className="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet mdl-cell--12-col-phone" />
+          <Formula className="mdl-cell mdl-cell--12-col" />
+          <Graph className="mdl-cell mdl-cell--12-col" />
+          <AlgorithmHistory className="mdl-cell mdl-cell--12-col" />
         </div>
-    </Layout>
+      </Layout>
     );
   }
 
