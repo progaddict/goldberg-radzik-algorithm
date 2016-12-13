@@ -1,49 +1,20 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux'
 import { Sigma, RandomizeNodePositions, RelativeSize } from 'react-sigmajs';
-import Button from '../../components/Button';
 import cx from 'classnames';
 
-
-
-const AlgorithmControlButton = ({ onClick, isActive, icon }) => (
-  <Button type="mini-fab" colored={true} primary={true} ripple={true} accent={true} onClick={onClick} disabled={!isActive}>
-    <i className="material-icons">{icon}</i>
-  </Button>
-)
-AlgorithmControlButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  isActive: PropTypes.bool.isRequired,
-  icon: PropTypes.string.isRequired,
-}
-
-const stpStartAlgorithmButton = (state) => {
-  return {
-    isActive: state.isStartAlgorithmActive
-  }
-};
-const dtpStartAlgorithmButton = (dispatch) => {
-  return {
-    onClick: () => dispatch({ type: 'START_ALGORITHM' })
-  }
-};
-const StartAlgorithmButton = connect(stpStartAlgorithmButton, dtpStartAlgorithmButton)(AlgorithmControlButton);
-
-const stpStopAlgorithmButton = (state) => {
-  return {
-    isActive: state.isStopAlgorithmActive
-  }
-};
-const dtpStopAlgorithmButton = (dispatch) => {
-  return {
-    onClick: () => dispatch({ type: 'STOP_ALGORITHM' })
-  }
-};
-const StopAlgorithmButton = connect(stpStopAlgorithmButton, dtpStopAlgorithmButton)(AlgorithmControlButton);
+import Button from '../../components/Button';
 
 
 
 class Graph extends React.Component {
+
+  static propTypes = {
+    onStartAlgorithm: PropTypes.func.isRequired,
+    onStopAlgorithm: PropTypes.func.isRequired,
+    isStartAlgorithmActive: PropTypes.bool.isRequired,
+    isStopAlgorithmActive: PropTypes.bool.isRequired,
+  }
 
   componentDidMount() {
     window.componentHandler.upgradeElement(this.root);
@@ -54,11 +25,13 @@ class Graph extends React.Component {
   }
 
   render() {
+    const { className, onStartAlgorithm, onStopAlgorithm,
+      isStartAlgorithmActive, isStopAlgorithmActive } = this.props;
     const classNameRoot = cx(
       'card-wide',
       'mdl-card',
       'mdl-shadow--2dp',
-      this.props.className
+      className
     );
     return (
       <div ref={node => (this.root = node)} className={classNameRoot}>
@@ -72,8 +45,16 @@ class Graph extends React.Component {
           </Sigma>
         </div>
         <div className="mdl-card__menu">
-          <StartAlgorithmButton icon="play_arrow" />
-          <StopAlgorithmButton icon="pause" />
+          <Button type="mini-fab" colored={true} ripple={true} accent={true}
+            onClick={() => onStartAlgorithm()}
+            disabled={!isStartAlgorithmActive}>
+            <i className="material-icons">play_arrow</i>
+          </Button>
+          <Button type="mini-fab" colored={true} ripple={true} accent={true}
+            onClick={() => onStopAlgorithm()}
+            disabled={!isStopAlgorithmActive}>
+            <i className="material-icons">pause</i>
+          </Button>
         </div>
       </div>
     );
@@ -81,4 +62,16 @@ class Graph extends React.Component {
 
 }
 
-export default Graph;
+const stpGraph = (state) => {
+  return {
+    isStartAlgorithmActive: state.isStartAlgorithmActive,
+    isStopAlgorithmActive: state.isStopAlgorithmActive
+  }
+};
+const dtpGraph = (dispatch) => {
+  return {
+    onStartAlgorithm: () => dispatch({ type: 'START_ALGORITHM' }),
+    onStopAlgorithm: () => dispatch({ type: 'STOP_ALGORITHM' }),
+  }
+};
+export default connect(stpGraph, dtpGraph)(Graph);

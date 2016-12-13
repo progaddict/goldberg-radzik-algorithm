@@ -39,6 +39,7 @@ const store = createStore((state, action) => {
         ...state,
         dlConstraints: newDlConstraints,
         isStartAlgorithmActive: newDlConstraints.length > 0,
+        isStopAlgorithmActive: false,
       };
     case 'REMOVE_ALL_CONSTRAINTS':
       if (state.dlConstraints.length === 0) {
