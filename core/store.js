@@ -4,7 +4,9 @@ import { createStore } from 'redux';
 
 const initialState = {
   nextId: 0,
-  dlConstraints: []
+  dlConstraints: [],
+  isStartAlgorithmActive: false,
+  isStopAlgorithmActive: false,
 };
 
 // Centralized application state
@@ -17,7 +19,8 @@ const store = createStore((state, action) => {
       return {
         ...state,
         dlConstraints: [...state.dlConstraints, action.dlConstraint],
-        nextId: state.nextId + 1
+        nextId: state.nextId + 1,
+        isStartAlgorithmActive: true,
       };
     case 'REMOVE_CONSTRAINT':
       const cId = action.dlConstraint.id;
@@ -34,7 +37,8 @@ const store = createStore((state, action) => {
       newDlConstraints.splice(cIndex, 1);
       return {
         ...state,
-        dlConstraints: newDlConstraints
+        dlConstraints: newDlConstraints,
+        isStartAlgorithmActive: newDlConstraints.length > 0,
       };
     case 'REMOVE_ALL_CONSTRAINTS':
       if (state.dlConstraints.length === 0) {
@@ -42,7 +46,21 @@ const store = createStore((state, action) => {
       }
       return {
         ...state,
-        dlConstraints: []
+        dlConstraints: [],
+        isStartAlgorithmActive: false,
+        isStopAlgorithmActive: false
+      };
+    case 'START_ALGORITHM':
+      return {
+        ...state,
+        isStartAlgorithmActive: false,
+        isStopAlgorithmActive: state.dlConstraints.length > 0
+      };
+    case 'STOP_ALGORITHM':
+      return {
+        ...state,
+        isStartAlgorithmActive: state.dlConstraints.length > 0,
+        isStopAlgorithmActive: false
       };
     default:
       return state;

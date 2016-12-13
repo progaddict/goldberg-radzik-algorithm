@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux'
 import { Sigma, RandomizeNodePositions, RelativeSize } from 'react-sigmajs';
 import Button from '../../components/Button';
 import cx from 'classnames';
@@ -10,12 +11,35 @@ const AlgorithmControlButton = ({ onClick, isActive, icon }) => (
     <i className="material-icons">{icon}</i>
   </Button>
 )
-
 AlgorithmControlButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
   icon: PropTypes.string.isRequired,
 }
+
+const stpStartAlgorithmButton = (state) => {
+  return {
+    isActive: state.isStartAlgorithmActive
+  }
+};
+const dtpStartAlgorithmButton = (dispatch) => {
+  return {
+    onClick: () => dispatch({ type: 'START_ALGORITHM' })
+  }
+};
+const StartAlgorithmButton = connect(stpStartAlgorithmButton, dtpStartAlgorithmButton)(AlgorithmControlButton);
+
+const stpStopAlgorithmButton = (state) => {
+  return {
+    isActive: state.isStopAlgorithmActive
+  }
+};
+const dtpStopAlgorithmButton = (dispatch) => {
+  return {
+    onClick: () => dispatch({ type: 'STOP_ALGORITHM' })
+  }
+};
+const StopAlgorithmButton = connect(stpStopAlgorithmButton, dtpStopAlgorithmButton)(AlgorithmControlButton);
 
 
 
@@ -48,8 +72,8 @@ class Graph extends React.Component {
           </Sigma>
         </div>
         <div className="mdl-card__menu">
-          <AlgorithmControlButton isActive={true} onClick={() => { alert('start'); } } icon="play_arrow" />
-          <AlgorithmControlButton isActive={true} onClick={() => { alert('stop'); } } icon="pause" />
+          <StartAlgorithmButton icon="play_arrow" />
+          <StopAlgorithmButton icon="pause" />
         </div>
       </div>
     );
