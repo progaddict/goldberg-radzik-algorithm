@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux'
-import { Sigma, RandomizeNodePositions, RelativeSize } from 'react-sigmajs';
 import cx from 'classnames';
 
 import Button from '../../components/Button';
@@ -14,7 +13,6 @@ class Graph extends React.Component {
     onStopAlgorithm: PropTypes.func.isRequired,
     isStartAlgorithmActive: PropTypes.bool.isRequired,
     isStopAlgorithmActive: PropTypes.bool.isRequired,
-    sigmaGraph: PropTypes.object,
   }
 
   componentDidMount() {
@@ -27,8 +25,7 @@ class Graph extends React.Component {
 
   render() {
     const { className, onStartAlgorithm, onStopAlgorithm,
-      isStartAlgorithmActive, isStopAlgorithmActive, sigmaGraph } = this.props;
-    console.log(JSON.stringify(sigmaGraph));
+      isStartAlgorithmActive, isStopAlgorithmActive } = this.props;
     const classNameRoot = cx(
       'card-wide',
       'mdl-card',
@@ -41,13 +38,7 @@ class Graph extends React.Component {
           <h2 className="mdl-card__title-text">Graph</h2>
         </div>
         <div className="mdl-card__supporting-text">
-          <Sigma renderer="webgl"
-            style={{ maxWidth: "inherit", height: "400px" }}
-            settings={{ drawEdges: true }}
-            onOverNode={e => console.log("Mouse over node: " + e.data.node.label)}
-            graph={sigmaGraph}>
-            <RelativeSize initialSize={8} />
-          </Sigma>
+          graph
         </div>
         <div className="mdl-card__menu">
           <Button type="mini-fab" colored={true} ripple={true} accent={true}
@@ -71,7 +62,6 @@ const stpGraph = (state) => {
   return {
     isStartAlgorithmActive: state.isStartAlgorithmActive,
     isStopAlgorithmActive: state.isStopAlgorithmActive,
-    sigmaGraph: state.constraintGraph.toSigmaGraph(),
   }
 };
 const dtpGraph = (dispatch) => {
