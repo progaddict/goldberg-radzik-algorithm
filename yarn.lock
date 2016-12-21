@@ -5364,7 +5364,7 @@ react-deep-force-update@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-2.0.1.tgz#4f7f6c12c3e7de42f345992a3c518236fa1ecad3"
 
-react-dom@^15.2.1, react-dom@^15.4.1:
+react-dom@^15.2.1:
   version "15.4.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.4.1.tgz#d54c913261aaedb17adc20410d029dcc18a1344a"
   dependencies:
@@ -5406,15 +5406,7 @@ react-redux@^4.4.5:
     lodash "^4.2.0"
     loose-envify "^1.1.0"
 
-react-sigmajs@^0.4.14:
-  version "0.4.14"
-  resolved "https://registry.yarnpkg.com/react-sigmajs/-/react-sigmajs-0.4.14.tgz#abc792cbd0b5e25a492d874dce966433d451e02d"
-  dependencies:
-    react "^15.4.1"
-    react-dom "^15.4.1"
-    sigma-react "^1.2.0-2"
-
-react@^15.2.1, react@^15.4.1:
+react@^15.2.1:
   version "15.4.1"
   resolved "https://registry.yarnpkg.com/react/-/react-15.4.1.tgz#498e918602677a3983cd0fd206dfe700389a0dd6"
   dependencies:
@@ -5908,10 +5900,6 @@ shelljs@^0.7.5:
     glob "^7.0.0"
     interpret "^1.0.0"
     rechoir "^0.6.2"
-
-sigma-react@^1.2.0-2:
-  version "1.2.0-2"
-  resolved "https://registry.yarnpkg.com/sigma-react/-/sigma-react-1.2.0-2.tgz#3283aa81217d9ed72cfaaef325e296418cf437e9"
 
 sigmund@~1.0.0:
   version "1.0.1"
