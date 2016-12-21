@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux'
+import * as d3 from 'd3';
 import cx from 'classnames';
 
 import Button from '../../components/Button';
@@ -9,10 +10,35 @@ import Button from '../../components/Button';
 class Graph extends React.Component {
 
   static propTypes = {
+    constraintGraph: PropTypes.object,
+  }
+
+  componentDidMount() {
+  }
+
+  render() {
+    const { className, constraintGraph } = this.props;
+    const classNameRoot = cx(
+      className
+    );
+    return (
+      <svg ref={node => (this.root = node)} className={classNameRoot}>
+      </svg>
+    );
+  }
+
+}
+
+
+
+class GraphCard extends React.Component {
+
+  static propTypes = {
     onStartAlgorithm: PropTypes.func.isRequired,
     onStopAlgorithm: PropTypes.func.isRequired,
     isStartAlgorithmActive: PropTypes.bool.isRequired,
     isStopAlgorithmActive: PropTypes.bool.isRequired,
+    constraintGraph: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -25,7 +51,7 @@ class Graph extends React.Component {
 
   render() {
     const { className, onStartAlgorithm, onStopAlgorithm,
-      isStartAlgorithmActive, isStopAlgorithmActive } = this.props;
+      isStartAlgorithmActive, isStopAlgorithmActive, constraintGraph } = this.props;
     const classNameRoot = cx(
       'card-wide',
       'mdl-card',
@@ -38,7 +64,7 @@ class Graph extends React.Component {
           <h2 className="mdl-card__title-text">Graph</h2>
         </div>
         <div className="mdl-card__supporting-text">
-          graph
+          <Graph constraintGraph={{ constraintGraph }} />
         </div>
         <div className="mdl-card__menu">
           <Button type="mini-fab" colored={true} ripple={true} accent={true}
@@ -62,6 +88,7 @@ const stpGraph = (state) => {
   return {
     isStartAlgorithmActive: state.isStartAlgorithmActive,
     isStopAlgorithmActive: state.isStopAlgorithmActive,
+    constraintGraph: state.constraintGraph,
   }
 };
 const dtpGraph = (dispatch) => {
@@ -70,4 +97,4 @@ const dtpGraph = (dispatch) => {
     onStopAlgorithm: () => dispatch({ type: 'STOP_ALGORITHM' }),
   }
 };
-export default connect(stpGraph, dtpGraph)(Graph);
+export default connect(stpGraph, dtpGraph)(GraphCard);
