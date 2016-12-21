@@ -28,6 +28,7 @@ class Graph extends React.Component {
   render() {
     const { className, onStartAlgorithm, onStopAlgorithm,
       isStartAlgorithmActive, isStopAlgorithmActive, sigmaGraph } = this.props;
+    console.log(JSON.stringify(sigmaGraph));
     const classNameRoot = cx(
       'card-wide',
       'mdl-card',
@@ -40,9 +41,12 @@ class Graph extends React.Component {
           <h2 className="mdl-card__title-text">Graph</h2>
         </div>
         <div className="mdl-card__supporting-text">
-          <Sigma graph={sigmaGraph} settings={{ drawEdges: true }}>
-            <RelativeSize initialSize={15} />
-            <RandomizeNodePositions />
+          <Sigma renderer="webgl"
+            style={{ maxWidth: "inherit", height: "400px" }}
+            settings={{ drawEdges: true }}
+            onOverNode={e => console.log("Mouse over node: " + e.data.node.label)}
+            graph={sigmaGraph}>
+            <RelativeSize initialSize={8} />
           </Sigma>
         </div>
         <div className="mdl-card__menu">
@@ -67,7 +71,7 @@ const stpGraph = (state) => {
   return {
     isStartAlgorithmActive: state.isStartAlgorithmActive,
     isStopAlgorithmActive: state.isStopAlgorithmActive,
-    sigmaGraph: state.graph.sigmaGraph,
+    sigmaGraph: state.constraintGraph.toSigmaGraph(),
   }
 };
 const dtpGraph = (dispatch) => {

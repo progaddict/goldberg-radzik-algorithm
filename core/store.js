@@ -2,7 +2,6 @@ import { createStore } from 'redux';
 
 import DlConstraint from './logic/DlConstraint';
 import ConstraintGraph from './logic/ConstraintGraph';
-import { constraintGraphToSigmaGraph } from './logic/ConstraintGraph';
 
 
 
@@ -11,38 +10,41 @@ const initialState = {
   dlConstraints: [],
   isStartAlgorithmActive: false,
   isStopAlgorithmActive: false,
-  graph: {
-    constraintGraph: new ConstraintGraph(),
-    sigmaGraph: constraintGraphToSigmaGraph(new ConstraintGraph()),
-  },
+  constraintGraph: new ConstraintGraph(),
 };
 
+const exampleDlConstraints = [
+  [
+    new DlConstraint('u', 'v', true, 1, 0),
+    new DlConstraint('v', 'w', true, 5, 1),
+    new DlConstraint('w', 'x', false, -3, 2),
+    new DlConstraint('x', 'y', true, 1, 3),
+    new DlConstraint('y', 'z', false, -5, 4),
+    new DlConstraint('y', 'v', false, 0, 5),
+  ],
+  [
+    new DlConstraint('u', 'v', true, 1, 0),
+    new DlConstraint('v', 'w', true, 5, 1),
+    new DlConstraint('w', 'x', false, -3, 2),
+    new DlConstraint('x', 'y', true, -3, 3),
+    new DlConstraint('y', 'z', false, -5, 4),
+    new DlConstraint('y', 'w', false, 4, 5),
+  ],
+];
 const formulas = [
   {
     ...initialState,
     nextId: 6,
-    dlConstraints: [
-      new DlConstraint('u', 'v', true, 1, 0),
-      new DlConstraint('v', 'w', true, 5, 1),
-      new DlConstraint('w', 'x', false, -3, 2),
-      new DlConstraint('x', 'y', true, 1, 3),
-      new DlConstraint('y', 'z', false, -5, 4),
-      new DlConstraint('y', 'v', false, 0, 5),
-    ],
+    dlConstraints: exampleDlConstraints[0],
     isStartAlgorithmActive: true,
+    constraintGraph: ConstraintGraph.fromDlConstraints(...exampleDlConstraints[0]),
   },
   {
     ...initialState,
     nextId: 6,
-    dlConstraints: [
-      new DlConstraint('u', 'v', true, 1, 0),
-      new DlConstraint('v', 'w', true, 5, 1),
-      new DlConstraint('w', 'x', false, -3, 2),
-      new DlConstraint('x', 'y', true, -3, 3),
-      new DlConstraint('y', 'z', false, -5, 4),
-      new DlConstraint('y', 'w', false, 4, 5),
-    ],
+    dlConstraints: exampleDlConstraints[1],
     isStartAlgorithmActive: true,
+    constraintGraph: ConstraintGraph.fromDlConstraints(...exampleDlConstraints[1]),
   },
 ];
 
@@ -53,9 +55,11 @@ const store = createStore((state, action) => {
   switch (action.type) {
     case 'ADD_CONSTRAINT':
       action.dlConstraint.id = state.nextId;
+      const newConstraints = [...state.dlConstraints, action.dlConstraint];
       return {
         ...state,
-        dlConstraints: [...state.dlConstraints, action.dlConstraint],
+        dlConstraints: newConstraints,
+        constraintGraph: ConstraintGraph.fromDlConstraints(...newConstraints),
         nextId: state.nextId + 1,
         isStartAlgorithmActive: true,
       };
@@ -75,6 +79,7 @@ const store = createStore((state, action) => {
       return {
         ...state,
         dlConstraints: newDlConstraints,
+        constraintGraph: ConstraintGraph.fromDlConstraints(...newDlConstraints),
         isStartAlgorithmActive: newDlConstraints.length > 0,
         isStopAlgorithmActive: false,
       };
@@ -86,7 +91,8 @@ const store = createStore((state, action) => {
         ...state,
         dlConstraints: [],
         isStartAlgorithmActive: false,
-        isStopAlgorithmActive: false
+        isStopAlgorithmActive: false,
+        constraintGraph: new ConstraintGraph(),
       };
     case 'START_ALGORITHM':
       return {
