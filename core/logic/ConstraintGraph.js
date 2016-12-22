@@ -94,6 +94,10 @@ class ConstraintGraph {
     return this.distanceEstimates[v] || new InequalityTuple(true, Infinity);
   }
 
+  isSourceVertex(v) {
+    return v === this.source;
+  }
+
   get V() {
     return Object.keys(this.adjacencyLists);
   }
