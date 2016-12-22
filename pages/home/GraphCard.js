@@ -54,7 +54,8 @@ class Graph extends React.Component {
       const y2 = target.y;
       const name = `${e.from}-${e.to}`;
       const isAdmissible = constraintGraph.isAdmissibleEdge(e);
-      return { name, x1, y1, x2, y2, isAdmissible };
+      const weight = e.weight;
+      return { name, x1, y1, x2, y2, isAdmissible, weight };
     });
     const circles = vertices.map(v => {
       const fillColor = constraintGraph.isSourceVertex(v.name) ? 'blue' : 'gray';
@@ -64,7 +65,7 @@ class Graph extends React.Component {
     });
     const nodeLabels = vertices.map(v => {
       const sign = v.d.isStrictInequality ? LESS_CHARACTER : LESS_THAN_OR_EQUALS_CHARACTER;
-      const constant = v.d.constant.toFixed(3);
+      const constant = v.d.constant.toFixed(2);
       return (<text key={v.name} x={v.x - 35} y={v.y - 10}>
         {`d(${v.name}) = (${sign}, ${constant})`}
       </text>
@@ -75,6 +76,16 @@ class Graph extends React.Component {
       const markerEnd = e.isAdmissible ? 'url(#arrowAdmissible)' : 'url(#arrowNormal)';
       return (
         <line key={e.name} x1={e.x1} y1={e.y1} x2={e.x2} y2={e.y2} stroke={stroke} strokeOpacity="0.5" strokeWidth="3" markerEnd={markerEnd} />
+      );
+    });
+    const lineLabels = edges.map(e => {
+      const sign = e.weight.isStrictInequality ? LESS_CHARACTER : LESS_THAN_OR_EQUALS_CHARACTER;
+      const constant = e.weight.constant.toFixed(2);
+      const x = (e.x1 + e.x2) / 2 - 25;
+      const y = (e.y1 + e.y2) / 2 + 15;
+      return (<text key={e.name} x={x} y={y}>
+        {`(${sign}, ${constant})`}
+      </text>
       );
     });
     return (
@@ -89,6 +100,7 @@ class Graph extends React.Component {
         </defs>
         <g> {lines} </g>
         <g> {circles} </g>
+        <g> {lineLabels} </g>
         <g> {nodeLabels} </g>
       </svg>
     );
