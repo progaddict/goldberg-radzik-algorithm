@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 
+import { LESS_CHARACTER, LESS_THAN_OR_EQUALS_CHARACTER } from '../../core/logic/DlConstraint';
 import Button from '../../components/Button';
 
 
@@ -61,7 +62,7 @@ class Graph extends React.Component {
       );
     });
     const nodeLabels = vertices.map(v => {
-      const sign = v.d.isStrictInequality ? '<' : '\u2264';
+      const sign = v.d.isStrictInequality ? LESS_CHARACTER : LESS_THAN_OR_EQUALS_CHARACTER;
       const constant = v.d.constant.toFixed(3);
       return (<text key={v.name} x={v.x - 35} y={v.y - 10}>
         {`d(${v.name}) = (${sign}, ${constant})`}
