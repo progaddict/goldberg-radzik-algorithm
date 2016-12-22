@@ -13,6 +13,7 @@
     "fastclick": "^1.0.6",
     "getmdl-select": "^1.0.4",
     "history": "^3.0.0",
+    "immutable": "^3.8.1",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "react-mdl": "^1.6.1",
