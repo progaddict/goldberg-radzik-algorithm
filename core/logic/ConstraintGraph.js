@@ -36,11 +36,11 @@ class InequalityTuple {
   }
 
   addTo(that) {
-    return this.add(this, that);
+    return InequalityTuple.add(this, that);
   }
 
   compareTo(that) {
-    return this.compare(this, that);
+    return InequalityTuple.compare(this, that);
   }
 
 }
@@ -96,6 +96,22 @@ class ConstraintGraph {
 
   isSourceVertex(v) {
     return v === this.source;
+  }
+
+  isAdmissibleArc(from, to) {
+    const edge = this.adjacencyLists[from].find(e => e.to === to);
+    if (!edge) {
+      return false;
+    }
+    return this.isAdmissibleEdge(edge);
+  }
+
+  isAdmissibleEdge(edge) {
+    const dFrom = this.getDistanceEstimate(edge.from);
+    const dTo = this.getDistanceEstimate(edge.to);
+    const newD = dFrom.addTo(edge.weight);
+    const result = newD.compareTo(dTo);
+    return result <= 0;
   }
 
   get V() {

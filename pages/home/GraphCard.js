@@ -53,7 +53,8 @@ class Graph extends React.Component {
       const x2 = target.x;
       const y2 = target.y;
       const name = `${e.from}-${e.to}`;
-      return { name, x1, y1, x2, y2, isAdmissible: false };
+      const isAdmissible = constraintGraph.isAdmissibleEdge(e);
+      return { name, x1, y1, x2, y2, isAdmissible };
     });
     const circles = vertices.map(v => {
       const fillColor = constraintGraph.isSourceVertex(v.name) ? 'blue' : 'gray';
@@ -70,9 +71,10 @@ class Graph extends React.Component {
       );
     });
     const lines = edges.map(e => {
+      const stroke = e.isAdmissible ? 'blue' : 'gray';
       const markerEnd = e.isAdmissible ? 'url(#arrowAdmissible)' : 'url(#arrowNormal)';
       return (
-        <line key={e.name} x1={e.x1} y1={e.y1} x2={e.x2} y2={e.y2} stroke="gray" strokeOpacity="0.5" strokeWidth="3" markerEnd={markerEnd} />
+        <line key={e.name} x1={e.x1} y1={e.y1} x2={e.x2} y2={e.y2} stroke={stroke} strokeOpacity="0.5" strokeWidth="3" markerEnd={markerEnd} />
       );
     });
     return (
