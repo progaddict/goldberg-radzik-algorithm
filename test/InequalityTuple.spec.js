@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 
-import { InequalityTuple } from '../core/logic/ConstraintGraph';
+import InequalityTuple from '../core/logic/InequalityTuple';
+
+
 
 describe('InequalityTuple.add tests', () => {
 
