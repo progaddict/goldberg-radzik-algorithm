@@ -9,60 +9,60 @@ describe('InequalityTuple.add tests', () => {
   let a, b, c, d, e = null;
 
   beforeEach(function () {
-    a = new InequalityTuple(true, -3);
-    b = new InequalityTuple(true, 10);
-    c = new InequalityTuple(false, 0);
-    d = new InequalityTuple(false, 5);
-    e = new InequalityTuple(false, -100);
+    a = InequalityTuple.create(true, -3);
+    b = InequalityTuple.create(true, 10);
+    c = InequalityTuple.create(false, 0);
+    d = InequalityTuple.create(false, 5);
+    e = InequalityTuple.create(false, -100);
   });
 
   it('must return the same constraint if it is only one', () => {
     let result = InequalityTuple.add(a);
-    expect(result).to.deep.equal({
-      isStrictInequality: true,
-      constant: -3,
-    });
+    expect(result.get('isStrictInequality')).to.be.true;
+    expect(result.get('constant')).to.equal(-3);
+    result = InequalityTuple.add(b);
+    expect(result.get('isStrictInequality')).to.be.true;
+    expect(result.get('constant')).to.equal(10);
     result = InequalityTuple.add(c);
-    expect(result).to.deep.equal({
-      isStrictInequality: false,
-      constant: 0,
-    });
+    expect(result.get('isStrictInequality')).to.be.false;
+    expect(result.get('constant')).to.equal(0);
+    result = InequalityTuple.add(d);
+    expect(result.get('isStrictInequality')).to.be.false;
+    expect(result.get('constant')).to.equal(5);
     result = InequalityTuple.add(e);
-    expect(result).to.deep.equal({
-      isStrictInequality: false,
-      constant: -100,
-    });
+    expect(result.get('isStrictInequality')).to.be.false;
+    expect(result.get('constant')).to.equal(-100);
   });
 
   it('must preserve non-strict inequality if there are only non-strict inequalities', () => {
     let result = InequalityTuple.add(c, d, e);
-    expect(result).to.have.deep.property('isStrictInequality', false);
+    expect(result.get('isStrictInequality')).to.be.false;
   });
 
   it('must return strict inequality if there are at least one strict inequality', () => {
     let result = InequalityTuple.add(c, d, e, a);
-    expect(result).to.have.deep.property('isStrictInequality', true);
+    expect(result.get('isStrictInequality')).to.be.true;
     result = InequalityTuple.add(a, b);
-    expect(result).to.have.deep.property('isStrictInequality', true);
+    expect(result.get('isStrictInequality')).to.be.true;
   });
 
   it('must always add up constants', () => {
     let result = InequalityTuple.add(a, b);
-    expect(result).to.have.deep.property('constant', 7);
+    expect(result.get('constant')).to.equal(7);
     result = InequalityTuple.add(c, d, e);
-    expect(result).to.have.deep.property('constant', -95);
+    expect(result.get('constant')).to.equal(-95);
     result = InequalityTuple.add(c, d, e, a, b);
-    expect(result).to.have.deep.property('constant', -88);
+    expect(result.get('constant')).to.equal(-88);
     result = InequalityTuple.add(a);
-    expect(result).to.have.deep.property('constant', -3);
+    expect(result.get('constant')).to.equal(-3);
     result = InequalityTuple.add(b);
-    expect(result).to.have.deep.property('constant', 10);
+    expect(result.get('constant')).to.equal(10);
     result = InequalityTuple.add(c);
-    expect(result).to.have.deep.property('constant', 0);
+    expect(result.get('constant')).to.equal(0);
     result = InequalityTuple.add(d);
-    expect(result).to.have.deep.property('constant', 5);
+    expect(result.get('constant')).to.equal(5);
     result = InequalityTuple.add(e);
-    expect(result).to.have.deep.property('constant', -100);
+    expect(result.get('constant')).to.equal(-100);
   });
 
 });
@@ -75,18 +75,18 @@ describe('InequalityTuple.compare tests', () => {
   let a2, b2, c2, d2, e2, f2 = null;
 
   beforeEach(function () {
-    a1 = new InequalityTuple(false, -3);
-    a2 = new InequalityTuple(false, -3);
-    b1 = new InequalityTuple(true, -3);
-    b2 = new InequalityTuple(true, -3);
-    c1 = new InequalityTuple(false, 0);
-    c2 = new InequalityTuple(false, 0);
-    d1 = new InequalityTuple(true, 0);
-    d2 = new InequalityTuple(true, 0);
-    e1 = new InequalityTuple(false, 15);
-    e2 = new InequalityTuple(false, 15);
-    f1 = new InequalityTuple(true, 15);
-    f2 = new InequalityTuple(true, 15);
+    a1 = InequalityTuple.create(false, -3);
+    a2 = InequalityTuple.create(false, -3);
+    b1 = InequalityTuple.create(true, -3);
+    b2 = InequalityTuple.create(true, -3);
+    c1 = InequalityTuple.create(false, 0);
+    c2 = InequalityTuple.create(false, 0);
+    d1 = InequalityTuple.create(true, 0);
+    d2 = InequalityTuple.create(true, 0);
+    e1 = InequalityTuple.create(false, 15);
+    e2 = InequalityTuple.create(false, 15);
+    f1 = InequalityTuple.create(true, 15);
+    f2 = InequalityTuple.create(true, 15);
   });
 
   it('must compare signs when constants are equal', () => {

@@ -1,40 +1,41 @@
+import { Map } from 'immutable';
+
+
+
 const PRECISION = 1e-5;
 
 
 
 class InequalityTuple {
 
-  constructor(isStrictInequality, constant = Infinity) {
-    this.isStrictInequality = isStrictInequality;
-    this.constant = constant;
+  static create(isStrictInequality = false, constant = Infinity) {
+    const result = Map({
+      isStrictInequality,
+      constant
+    });
+    return result;
   }
 
   static add(...params) {
     let isStrictInequality = false;
     let constant = 0;
     for (let p of params) {
-      isStrictInequality = isStrictInequality || p.isStrictInequality;
-      constant += p.constant;
+      isStrictInequality = isStrictInequality || p.get('isStrictInequality');
+      constant += p.get('constant');
     }
-    return new InequalityTuple(isStrictInequality, constant);
+    return InequalityTuple.create(isStrictInequality, constant);
   }
 
   static compare(left, right) {
-    if (Math.abs(left.constant - right.constant) < PRECISION) {
-      if (left.isStrictInequality ^ right.isStrictInequality) {
-        return left.isStrictInequality ? +1 : -1;
+    const lc = left.get('constant');
+    const rc = right.get('constant');
+    if (Math.abs(lc - rc) < PRECISION) {
+      if (left.get('isStrictInequality') ^ right.get('isStrictInequality')) {
+        return left.get('isStrictInequality') ? +1 : -1;
       }
       return 0;
     }
-    return left.constant < right.constant ? -1 : +1;
-  }
-
-  addTo(that) {
-    return InequalityTuple.add(this, that);
-  }
-
-  compareTo(that) {
-    return InequalityTuple.compare(this, that);
+    return lc < rc ? -1 : +1;
   }
 
 }
