@@ -69,8 +69,8 @@ class AddNewConstraint extends React.Component {
     if (!l || !r || !c) {
       return;
     }
-    const isStrictInequality = (this.sign.value || '').toLowerCase() === 'true';
-    const newConstraint = new DlConstraint(l, r, isStrictInequality, +c);
+    const isStrictInequality = (this.sign.value || '').trim().toLowerCase() === 'true';
+    const newConstraint = DlConstraint.create(l, r, isStrictInequality, +c);
     this.props.onAdd(newConstraint);
   }
 

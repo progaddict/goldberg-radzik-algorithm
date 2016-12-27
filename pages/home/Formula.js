@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux'
+import { List } from 'immutable';
 import cx from 'classnames';
+
 import Button from '../../components/Button';
 import AddNewConstraint from './AddNewConstraint';
 import Constraints from './Constraints';
@@ -10,7 +12,6 @@ import Constraints from './Constraints';
 class Formula extends React.Component {
 
   static defaultProps = {
-    dlConstraints: [],
     onRemoveAll: PropTypes.func.isRequired,
     onLoadFormula: PropTypes.func.isRequired,
   }

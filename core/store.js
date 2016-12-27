@@ -1,4 +1,5 @@
 import { createStore } from 'redux';
+import { Map, List } from 'immutable';
 
 import DlConstraint from './logic/DlConstraint';
 import ConstraintGraph from './logic/ConstraintGraph';
@@ -7,44 +8,44 @@ import ConstraintGraph from './logic/ConstraintGraph';
 
 const initialState = {
   nextId: 0,
-  dlConstraints: [],
+  dlConstraints: List(),
   isStartAlgorithmActive: false,
   isStopAlgorithmActive: false,
-  constraintGraph: new ConstraintGraph(),
+  constraintGraph: ConstraintGraph.create(),
 };
 
 const exampleDlConstraints = [
   [
-    new DlConstraint('u', 'v', true, 1, 0),
-    new DlConstraint('v', 'w', true, 5, 1),
-    new DlConstraint('w', 'x', false, -3, 2),
-    new DlConstraint('x', 'y', true, 1, 3),
-    new DlConstraint('y', 'z', false, -5, 4),
-    new DlConstraint('y', 'v', false, 0, 5),
+    DlConstraint.create('u', 'v', true, 1, 0),
+    DlConstraint.create('v', 'w', true, 5, 1),
+    DlConstraint.create('w', 'x', false, -3, 2),
+    DlConstraint.create('x', 'y', true, 1, 3),
+    DlConstraint.create('y', 'z', false, -5, 4),
+    DlConstraint.create('y', 'v', false, 0, 5),
   ],
   [
-    new DlConstraint('u', 'v', true, 1, 0),
-    new DlConstraint('v', 'w', true, 5, 1),
-    new DlConstraint('w', 'x', false, -3, 2),
-    new DlConstraint('x', 'y', true, -3, 3),
-    new DlConstraint('y', 'z', false, -5, 4),
-    new DlConstraint('y', 'w', false, 4, 5),
+    DlConstraint.create('u', 'v', true, 1, 0),
+    DlConstraint.create('v', 'w', true, 5, 1),
+    DlConstraint.create('w', 'x', false, -3, 2),
+    DlConstraint.create('x', 'y', true, -3, 3),
+    DlConstraint.create('y', 'z', false, -5, 4),
+    DlConstraint.create('y', 'w', false, 4, 5),
   ],
 ];
 const formulas = [
   {
     ...initialState,
     nextId: 6,
-    dlConstraints: exampleDlConstraints[0],
+    dlConstraints: List(exampleDlConstraints[0]),
     isStartAlgorithmActive: true,
-    constraintGraph: ConstraintGraph.fromDlConstraints(...exampleDlConstraints[0]),
+    constraintGraph: ConstraintGraph.create(...exampleDlConstraints[0]),
   },
   {
     ...initialState,
     nextId: 6,
-    dlConstraints: exampleDlConstraints[1],
+    dlConstraints: List(exampleDlConstraints[1]),
     isStartAlgorithmActive: true,
-    constraintGraph: ConstraintGraph.fromDlConstraints(...exampleDlConstraints[1]),
+    constraintGraph: ConstraintGraph.create(...exampleDlConstraints[1]),
   },
 ];
 
@@ -53,63 +54,68 @@ const formulas = [
 const store = createStore((state, action) => {
   // TODO: Add action handlers (aka "reduces")
   switch (action.type) {
-    case 'ADD_CONSTRAINT':
-      action.dlConstraint.id = state.nextId;
-      const newConstraints = [...state.dlConstraints, action.dlConstraint];
+    case 'ADD_CONSTRAINT': {
+      const newDlConstraint = action.dlConstraint.set('id', state.nextId);
+      const newConstraints = state.dlConstraints.push(newDlConstraint);
+      let newConstraintGraph = ConstraintGraph.addEdgeFromDlConstraint(state.constraintGraph, newDlConstraint);
+      newConstraintGraph = ConstraintGraph.initSingleSource(newConstraintGraph);
       return {
         ...state,
         dlConstraints: newConstraints,
-        constraintGraph: ConstraintGraph.fromDlConstraints(...newConstraints),
+        constraintGraph: newConstraintGraph,
         nextId: state.nextId + 1,
         isStartAlgorithmActive: true,
       };
-    case 'REMOVE_CONSTRAINT':
-      const cId = action.dlConstraint.id;
-      const newDlConstraints = [...state.dlConstraints];
-      const cIndex = newDlConstraints.findIndex(c => c.id === cId);
+    }
+    case 'REMOVE_CONSTRAINT': {
+      const cId = action.dlConstraint.get('id');
+      const currentDlConstraints = state.dlConstraints;
+      const cIndex = currentDlConstraints.findIndex(c => c.get('id') === cId);
       if (cIndex === -1) {
         if (__DEV__) {
           console.warn(
-            `failed to find constraint with id ${cId}. action: ${JSON.stringify(action)}`
+            `failed to find constraint with id ${cId}`
           );
         }
         return state;
       }
-      newDlConstraints.splice(cIndex, 1);
+      let newConstraintGraph = ConstraintGraph.removeEdgeFromDlConstraint(
+        state.constraintGraph,
+        currentDlConstraints.get(cIndex)
+      );
+      newConstraintGraph = ConstraintGraph.initSingleSource(newConstraintGraph);
+      const newDlConstraints = state.dlConstraints.delete(cIndex);
       return {
         ...state,
         dlConstraints: newDlConstraints,
-        constraintGraph: ConstraintGraph.fromDlConstraints(...newDlConstraints),
-        isStartAlgorithmActive: newDlConstraints.length > 0,
+        constraintGraph: newConstraintGraph,
+        isStartAlgorithmActive: newDlConstraints.size > 0,
         isStopAlgorithmActive: false,
       };
-    case 'REMOVE_ALL_CONSTRAINTS':
-      if (state.dlConstraints.length === 0) {
-        return state;
-      }
-      return {
-        ...state,
-        dlConstraints: [],
-        isStartAlgorithmActive: false,
-        isStopAlgorithmActive: false,
-        constraintGraph: new ConstraintGraph(),
-      };
-    case 'START_ALGORITHM':
+    }
+    case 'REMOVE_ALL_CONSTRAINTS': {
+      return initialState;
+    }
+    case 'START_ALGORITHM': {
       return {
         ...state,
         isStartAlgorithmActive: false,
-        isStopAlgorithmActive: state.dlConstraints.length > 0
+        isStopAlgorithmActive: state.dlConstraints.size > 0
       };
-    case 'STOP_ALGORITHM':
+    }
+    case 'STOP_ALGORITHM': {
       return {
         ...state,
-        isStartAlgorithmActive: state.dlConstraints.length > 0,
+        isStartAlgorithmActive: state.dlConstraints.size > 0,
         isStopAlgorithmActive: false
       };
-    case 'LOAD_FORMULA':
+    }
+    case 'LOAD_FORMULA': {
       return formulas[action.formulaId];
-    default:
+    }
+    default: {
       return state;
+    }
   }
 }, initialState);
 

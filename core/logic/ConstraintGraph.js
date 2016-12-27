@@ -8,18 +8,18 @@ import InequalityTuple from './InequalityTuple';
 class ConstraintGraph {
 
   static create(...constraints) {
-    let result = Map({
+    let g = Map({
       adjacencyLists: Map(),
       source: null,
       distanceEstimates: Map(),
     });
     if (!constraints || constraints.length === 0) {
-      return result;
+      return g;
     }
     for (let c of constraints) {
-      result = ConstraintGraph.addEdgeFromDlConstraint(result, c);
+      g = ConstraintGraph.addEdgeFromDlConstraint(g, c);
     }
-    return result;
+    return g;
   }
 
   // private API
@@ -31,15 +31,26 @@ class ConstraintGraph {
     return g.setIn(['adjacencyLists', v], List());
   }
 
+  static _isIsolatedNode(g, v) {
+    const edges = ConstraintGraph.edges(g);
+    const someEdge = edges.find(e => e.get('from') === v || e.get('to') === v);
+    return !someEdge;
+  }
+
   // public API
 
   static initSingleSource(g, sourceVertex) {
     const source = sourceVertex || ConstraintGraph.nodes(g)[0];
-    g = g.set('source', source);
-    const distanceEstimates = Map({
-      [source]: InequalityTuple.create(false, 0),
-    });
-    g = g.set('distanceEstimates', distanceEstimates);
+    if (!source) {
+      g = g.set('source', null);
+      g = g.set('distanceEstimates', Map());
+    } else {
+      g = g.set('source', source);
+      const distanceEstimates = Map({
+        [source]: InequalityTuple.create(false, 0),
+      });
+      g = g.set('distanceEstimates', distanceEstimates);
+    }
     return g;
   }
 
@@ -56,8 +67,33 @@ class ConstraintGraph {
     return g;
   }
 
+  static removeEdgeFromDlConstraint(g, dlConstraint) {
+    const from = dlConstraint.get('left');
+    const to = dlConstraint.get('right');
+    g = g.updateIn(['adjacencyLists', from], val => {
+      const edgeIdx = val.findIndex(e => e.get('to') === to);
+      if (edgeIdx === -1) {
+        if (__DEV__) {
+          console.warn(`failed to find edge from ${from} to ${to}`);
+        }
+        return val;
+      } else {
+        return val.delete(edgeIdx);
+      }
+    });
+    if (ConstraintGraph._isIsolatedNode(g, from)) {
+      g = g.deleteIn(['adjacencyLists', from]);
+    }
+    if (ConstraintGraph._isIsolatedNode(g, to)) {
+      g = g.deleteIn(['adjacencyLists', to]);
+    }
+    return g;
+  }
+
   static getDistanceEstimate(g, v) {
-    return g.getIn(['distanceEstimates', v]) || InequalityTuple.create(true, Infinity);
+    const dV = g.getIn(['distanceEstimates', v]);
+    const dInf = InequalityTuple.create(true, Infinity);
+    return dV || dInf;
   }
 
   static isSourceVertex(g, v) {
@@ -77,15 +113,10 @@ class ConstraintGraph {
   }
 
   static isAdmissibleEdge(g, edge) {
-    console.log('edge', JSON.stringify(edge));
     const dFrom = ConstraintGraph.getDistanceEstimate(g, edge.get('from'));
     const dTo = ConstraintGraph.getDistanceEstimate(g, edge.get('to'));
     const newD = InequalityTuple.add(dFrom, edge.get('weight'));
     const result = InequalityTuple.compare(newD, dTo);
-    console.log('dFrom', JSON.stringify(dFrom));
-    console.log('dTo', JSON.stringify(dTo));
-    console.log('newD', JSON.stringify(newD));
-    console.log('result', JSON.stringify(result));
     return result <= 0;
   }
 
@@ -94,7 +125,7 @@ class ConstraintGraph {
   }
 
   static edges(g) {
-    const result = g.get('adjacencyLists').map((v, k) => v).flatten(true).toArray();
+    const result = g.get('adjacencyLists').valueSeq().flatten(true).toArray();
     return result;
   }
 

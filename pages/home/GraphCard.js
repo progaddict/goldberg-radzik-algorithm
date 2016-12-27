@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import cx from 'classnames';
 
 import { LESS_CHARACTER, LESS_THAN_OR_EQUALS_CHARACTER } from '../../core/logic/DlConstraint';
+import ConstraintGraph from '../../core/logic/ConstraintGraph';
 import Button from '../../components/Button';
 
 
@@ -28,7 +29,7 @@ function screenYTocartesianY(originY, y) {
 class Graph extends React.Component {
 
   static propTypes = {
-    constraintGraph: PropTypes.any,
+    constraintGraph: PropTypes.object.isRequired,
   }
 
   render() {
@@ -38,34 +39,37 @@ class Graph extends React.Component {
     const originX = svgWidth / 2;
     const originY = svgHeight / 2;
     const radius = 0.7 * Math.min(originX, originY);
-    const N = constraintGraph.numberOfNodes;
-    const vertices = constraintGraph.V.map((v, idx) => {
+    const N = ConstraintGraph.numberOfNodes(constraintGraph);
+    const vertices = ConstraintGraph.nodes(constraintGraph).map((v, idx) => {
       const x = cartesianXToScreenX(originX, radius * Math.cos(2 * Math.PI * idx / N));
       const y = cartesianYToScreenY(originY, radius * Math.sin(2 * Math.PI * idx / N));
-      const d = constraintGraph.getDistanceEstimate(v);
+      const d = ConstraintGraph.getDistanceEstimate(constraintGraph, v);
       return { name: v, x, y, d };
     });
-    const edges = constraintGraph.E.map(e => {
-      const source = vertices.find(v => v.name === e.from);
+    const edges1 = ConstraintGraph.edges(constraintGraph);
+    const edges = edges1.map(e => {
+      const from = e.get('from');
+      const to = e.get('to');
+      const source = vertices.find(v => v.name === from);
       const x1 = source.x;
       const y1 = source.y;
-      const target = vertices.find(v => v.name === e.to);
+      const target = vertices.find(v => v.name === to);
       const x2 = target.x;
       const y2 = target.y;
-      const name = `${e.from}-${e.to}`;
-      const isAdmissible = constraintGraph.isAdmissibleEdge(e);
-      const weight = e.weight;
+      const name = `${from}-${to}`;
+      const isAdmissible = ConstraintGraph.isAdmissibleEdge(constraintGraph, e);
+      const weight = e.get('weight');
       return { name, x1, y1, x2, y2, isAdmissible, weight };
     });
     const circles = vertices.map(v => {
-      const fillColor = constraintGraph.isSourceVertex(v.name) ? 'blue' : 'gray';
+      const fillColor = ConstraintGraph.isSourceVertex(constraintGraph, v.name) ? 'blue' : 'gray';
       return (
         <circle key={v.name} cx={v.x} cy={v.y} r="5" stroke="black" strokeWidth="1" fill={fillColor} />
       );
     });
     const nodeLabels = vertices.map(v => {
-      const sign = v.d.isStrictInequality ? LESS_CHARACTER : LESS_THAN_OR_EQUALS_CHARACTER;
-      const constant = v.d.constant.toFixed(2);
+      const sign = v.d.get('isStrictInequality') ? LESS_CHARACTER : LESS_THAN_OR_EQUALS_CHARACTER;
+      const constant = v.d.get('constant').toFixed(2);
       return (<text key={v.name} x={v.x - 35} y={v.y - 10}>
         {`d(${v.name}) = (${sign}, ${constant})`}
       </text>
@@ -79,8 +83,8 @@ class Graph extends React.Component {
       );
     });
     const lineLabels = edges.map(e => {
-      const sign = e.weight.isStrictInequality ? LESS_CHARACTER : LESS_THAN_OR_EQUALS_CHARACTER;
-      const constant = e.weight.constant.toFixed(2);
+      const sign = e.weight.get('isStrictInequality') ? LESS_CHARACTER : LESS_THAN_OR_EQUALS_CHARACTER;
+      const constant = e.weight.get('constant').toFixed(2);
       const x = (e.x1 + e.x2) / 2 - 25;
       const y = (e.y1 + e.y2) / 2 + 15;
       return (<text key={e.name} x={x} y={y}>
