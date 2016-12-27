@@ -57,8 +57,10 @@ const store = createStore((state, action) => {
     case 'ADD_CONSTRAINT': {
       const newDlConstraint = action.dlConstraint.set('id', state.nextId);
       const newConstraints = state.dlConstraints.push(newDlConstraint);
-      let newConstraintGraph = ConstraintGraph.addEdgeFromDlConstraint(state.constraintGraph, newDlConstraint);
-      newConstraintGraph = ConstraintGraph.initSingleSource(newConstraintGraph);
+      const newConstraintGraph = ConstraintGraph.addEdgeFromDlConstraint(
+        state.constraintGraph,
+        newDlConstraint
+      );
       return {
         ...state,
         dlConstraints: newConstraints,
@@ -79,11 +81,10 @@ const store = createStore((state, action) => {
         }
         return state;
       }
-      let newConstraintGraph = ConstraintGraph.removeEdgeFromDlConstraint(
+      const newConstraintGraph = ConstraintGraph.removeEdgeFromDlConstraint(
         state.constraintGraph,
         currentDlConstraints.get(cIndex)
       );
-      newConstraintGraph = ConstraintGraph.initSingleSource(newConstraintGraph);
       const newDlConstraints = state.dlConstraints.delete(cIndex);
       return {
         ...state,
