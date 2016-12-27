@@ -56,14 +56,11 @@ const store = createStore((state, action) => {
   switch (action.type) {
     case 'ADD_CONSTRAINT': {
       const newDlConstraint = action.dlConstraint.set('id', state.nextId);
-      const newConstraints = state.dlConstraints.push(newDlConstraint);
-      const newConstraintGraph = ConstraintGraph.addEdgeFromDlConstraint(
-        state.constraintGraph,
-        newDlConstraint
-      );
+      const newDlConstraints = state.dlConstraints.push(newDlConstraint);
+      const newConstraintGraph = ConstraintGraph.create(...(newDlConstraints.toArray()));
       return {
         ...state,
-        dlConstraints: newConstraints,
+        dlConstraints: newDlConstraints,
         constraintGraph: newConstraintGraph,
         nextId: state.nextId + 1,
         isStartAlgorithmActive: true,
@@ -81,11 +78,8 @@ const store = createStore((state, action) => {
         }
         return state;
       }
-      const newConstraintGraph = ConstraintGraph.removeEdgeFromDlConstraint(
-        state.constraintGraph,
-        currentDlConstraints.get(cIndex)
-      );
       const newDlConstraints = state.dlConstraints.delete(cIndex);
+      const newConstraintGraph = ConstraintGraph.create(...(newDlConstraints.toArray()));
       return {
         ...state,
         dlConstraints: newDlConstraints,

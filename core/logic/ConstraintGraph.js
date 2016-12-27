@@ -31,12 +31,6 @@ class ConstraintGraph {
     return g.setIn(['adjacencyLists', v], List());
   }
 
-  static _isIsolatedNode(g, v) {
-    const edges = ConstraintGraph.edges(g);
-    const someEdge = edges.find(e => e.get('from') === v || e.get('to') === v);
-    return !someEdge;
-  }
-
   // public API
 
   static initSingleSource(g, sourceVertex) {
@@ -64,29 +58,6 @@ class ConstraintGraph {
     g = ConstraintGraph._initAdjacencyList(g, to);
     const edge = Map({ from, to, weight });
     g = g.updateIn(['adjacencyLists', from], val => val.push(edge));
-    return g;
-  }
-
-  static removeEdgeFromDlConstraint(g, dlConstraint) {
-    const from = dlConstraint.get('left');
-    const to = dlConstraint.get('right');
-    g = g.updateIn(['adjacencyLists', from], val => {
-      const edgeIdx = val.findIndex(e => e.get('to') === to);
-      if (edgeIdx === -1) {
-        if (__DEV__) {
-          console.warn(`failed to find edge from ${from} to ${to}`);
-        }
-        return val;
-      } else {
-        return val.delete(edgeIdx);
-      }
-    });
-    if (ConstraintGraph._isIsolatedNode(g, from)) {
-      g = g.deleteIn(['adjacencyLists', from]);
-    }
-    if (ConstraintGraph._isIsolatedNode(g, to)) {
-      g = g.deleteIn(['adjacencyLists', to]);
-    }
     return g;
   }
 
