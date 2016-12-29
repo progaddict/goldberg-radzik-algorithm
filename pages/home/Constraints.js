@@ -43,7 +43,7 @@ const ConstraintWrapper = connect(null, mapDispatchToProps)(Constraint);
 class Constraints extends React.Component {
 
   static propTypes = {
-    dlConstraints: PropTypes.array,
+    dlConstraints: PropTypes.array.isRequired,
   }
 
   static defaultProps = {
@@ -65,7 +65,7 @@ class Constraints extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    dlConstraints: state.dlConstraints.toArray(),
+    dlConstraints: state.get('dlConstraints').toArray(),
   }
 }
 

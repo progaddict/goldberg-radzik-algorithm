@@ -169,9 +169,9 @@ class GraphCard extends React.Component {
 
 const stpGraph = (state) => {
   return {
-    isStartAlgorithmActive: state.isStartAlgorithmActive,
-    isStopAlgorithmActive: state.isStopAlgorithmActive,
-    constraintGraph: state.constraintGraph,
+    isStartAlgorithmActive: state.get('isStartAlgorithmActive'),
+    isStopAlgorithmActive: state.get('isStopAlgorithmActive'),
+    constraintGraph: state.get('constraintGraph'),
   }
 };
 const dtpGraph = (dispatch) => {
